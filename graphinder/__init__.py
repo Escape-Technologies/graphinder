@@ -18,7 +18,6 @@ title = r"""
 # pylint: disable=anomalous-backslash-in-string
 console.print(title, style='bold')
 
-console.print(
-    f'  (c) 2021 Escape Technologies - Version: {__version__} \n\n\n')
+console.print(f'  (c) 2021 Escape Technologies - Version: {__version__} \n\n\n')
 
 from graphinder.main import main  # noqa

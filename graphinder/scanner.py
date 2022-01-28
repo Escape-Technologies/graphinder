@@ -12,23 +12,16 @@ from progressbar import progressbar  # type:ignore
 from graphinder.extractors import extract_from_scripts, network_extract_endpoint
 
 
-def handle_domain_name(domain: str, verbose: bool, scripts: bool,
-                       subdomains: bool, subdomains_bruteforce: bool,
-                       output_file: click.Path | None) -> None:
+def handle_domain_name(domain: str, verbose: bool, scripts: bool, subdomains: bool, subdomains_bruteforce: bool, output_file: click.Path | None) -> None:
     """extracts the GQL endpoint from the domain name provided."""
 
     endpoints = []
 
     if subdomains or subdomains_bruteforce:
         # Find all the subdomains for the given domain
-        sbdomains = sublist3r.main(domain,
-                                   40,
-                                   savefile=None,
-                                   ports=None,
-                                   silent=not verbose,
-                                   verbose=verbose,
-                                   enable_bruteforce=subdomains_bruteforce,
-                                   engines=None)
+        sbdomains = sublist3r.main(
+            domain, 40, savefile=None, ports=None, silent=not verbose, verbose=verbose, enable_bruteforce=subdomains_bruteforce, engines=None
+        )
     else:
         sbdomains = [domain]
 
@@ -59,14 +52,11 @@ def handle_domain_name(domain: str, verbose: bool, scripts: bool,
                 f.write(f'{item}\n')
 
 
-def handle_domain_file(file: click.File, verbose: bool, scripts: bool,
-                       subdomains: bool, subdomains_bruteforce: bool,
-                       output_file: click.Path | None) -> None:
+def handle_domain_file(file: click.File, verbose: bool, scripts: bool, subdomains: bool, subdomains_bruteforce: bool, output_file: click.Path | None) -> None:
     """extracts the GQL endpoint from the domain names in the text file provided."""
     domains = file.readlines()  #type: ignore
 
     for line in progressbar(domains, redirect_stdout=True):
         domain = line.strip()
-        handle_domain_name(domain, verbose, scripts, subdomains,
-                           subdomains_bruteforce, output_file)
+        handle_domain_name(domain, verbose, scripts, subdomains, subdomains_bruteforce, output_file)
         sleep(0.5)

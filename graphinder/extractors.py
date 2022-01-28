@@ -61,11 +61,9 @@ def extract_from_scripts(domain: str) -> list:
 
         session = requests.Session()
         # set the User-agent as a regular browser
-        session.headers[
-            'User-Agent'] = 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/44.0.2403.157 Safari/537.36'
+        session.headers['User-Agent'] = 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/44.0.2403.157 Safari/537.36'
 
-        soup = BeautifulSoup(
-            session.get(url, timeout=10).content, 'html.parser')
+        soup = BeautifulSoup(session.get(url, timeout=10).content, 'html.parser')
 
         # get the JavaScript files On the loaded page
         script_files = []
@@ -81,7 +79,8 @@ def extract_from_scripts(domain: str) -> list:
                 conf_file = requests.get(script_url).text
                 urls = re.findall(
                     'https?://(?:[-\w.]|(?:%[\da-fA-F]{2}))+',  #pylint: disable=anomalous-backslash-in-string
-                    conf_file)
+                    conf_file
+                )
                 urls = filter_common(urls)
                 for urll in urls:
                     potential_gql = f'{urll.rstrip("/graphql")}/graphql'

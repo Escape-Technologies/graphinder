@@ -30,10 +30,11 @@ InquirerPy = "^0.2.4"
 requests = "^2.27.1"
 tqdm = "^4.62.3"
 bs4 = "^0.0.1"
-progressbar = "^2.5"
 Sublist3r = "^1.0"
 playwright = "^1.18.0"
 rich = "^11.0.0"
+progressbar = "^2.5"
+progressbar2 = "^4.0.0"
 
 [tool.poetry.dev-dependencies]
 pytest = "^6.2.5"
