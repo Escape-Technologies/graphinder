@@ -1,10 +1,10 @@
 [tool.poetry]
 name = "graphinder"
 version = "1.0.0-beta.0"
-description = "Escape GraphQL Finder"
+description = "Escape Graphinder"
 authors = ["Escape Technologies SAS <ping@escape.tech>"]
-maintainers = ["Karim Rustom <karim.rustom@gmail.com>", "Antoine Carossio <antoine.carossio@me.com>"]
-license = "Proprietary"
+maintainers = ["Karim Rustom <rustom@escape.tech>", "Antoine Carossio <antoine@escape.tech>"]
+license = "MIT"
 packages = [
     { include = "graphinder" }
 ]
