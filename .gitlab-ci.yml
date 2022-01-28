@@ -1,0 +1,102 @@
+###############################
+######### VARIABLES ###########
+###############################
+
+variables:
+  MIN_TEST_COV: 20 # Minimum coverage for unit tests globally
+
+################################
+########### STAGES #############
+################################
+
+stages:
+  - unit-tests
+  - e2e-tests
+  - release
+  - deploy
+
+################################
+######### TEMPLATES ############
+################################
+
+.retry-policy: # Used for every single job
+  retry:
+    max: 2
+    when:
+      - runner_system_failure
+      - stuck_or_timeout_failure
+
+.python-poetry-dev: # Used in all Python projects for Unit-Testing: Frontend, Backend, Instrumenter
+  extends: .retry-policy
+  image: python:3.10-slim
+  stage: unit-tests
+  coverage: '/TOTAL.*\s+(\d+%)$/'
+  variables:
+    PIP_CACHE_DIR: $WORKING_DIR/.cache/pip
+  cache:
+    key:
+      files:
+        - $WORKING_DIR/poetry.lock
+    paths:
+      - $WORKING_DIR/.cache/pip
+      - $WORKING_DIR/.venv
+      - $WORKING_DIR/.mypy_cache
+      - $WORKING_DIR/.pytest_cache
+  before_script:
+    - cd $WORKING_DIR
+    - pip install poetry
+    - poetry config virtualenvs.in-project true
+    - poetry install
+    - . .venv/bin/activate
+  only:
+    refs:
+      - staging
+      - merge_requests
+  tags:
+    - gitlab-org
+
+.python-poetry-no-dev:
+  extends: .retry-policy
+  image: python:3.10-slim
+  stage: unit-tests
+  variables:
+    PIP_CACHE_DIR: $WORKING_DIR/.cache/pip
+  cache:
+    key:
+      files:
+        - $WORKING_DIR/poetry.lock
+    paths:
+      - $WORKING_DIR/.cache/pip
+      - $WORKING_DIR/.venv
+      - $WORKING_DIR/.mypy_cache
+      - $WORKING_DIR/.pytest_cache
+  before_script:
+    - cd $WORKING_DIR
+    - pip install poetry
+    - poetry config virtualenvs.in-project true
+    - poetry install --no-dev
+    - . .venv/bin/activate
+  only:
+    refs:
+      - staging
+      - merge_requests
+  tags:
+    - gitlab-org
+
+.unit-tests-python:
+  extends: .python-poetry-dev
+  script:
+    - cp .env.example .env 2>/dev/null || echo "No .env file found"
+    - isort -m 9 --line-length 159 $MODULE_NAME tests --check-only
+    - pylint --load-plugins pylint_quotes $MODULE_NAME tests
+    - docformatter --wrap-summaries 160 --wrap-descriptions 160 -cr $MODULE_NAME tests
+    - yapf -rd $MODULE_NAME tests
+    - mypy -V
+    - mypy $MODULE_NAME tests
+    - pytest --cov=$MODULE_NAME --cov-fail-under=$MIN_TEST_COV tests/unit
+
+escape-cli-unit-tests:
+  extends: .unit-tests-python
+  variables:
+    WORKING_DIR: $CI_PROJECT_DIR/
+    MODULE_NAME: graphinder
