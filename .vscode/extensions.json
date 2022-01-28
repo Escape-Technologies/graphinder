@@ -1,0 +1,18 @@
+{
+    "recommendations": [
+        "britesnow.vscode-toggle-quotes",
+        "eamodio.gitlens",
+        "davidanson.vscode-markdownlint",
+        "redhat.vscode-yaml",
+        "ms-python.vscode-pylance",
+        "bungcip.better-toml",
+        "emeraldwalk.runonsave",
+        "matangover.mypy",
+        "njqdev.vscode-python-typehint",
+        "dongli.python-preview",
+        "frhtylcn.pythonsnippets",
+        "kevinrose.vsc-python-indent",
+        "LittleFoxTeam.vscode-python-test-adapter",
+        "ryanluker.vscode-coverage-gutters"
+    ]
+}

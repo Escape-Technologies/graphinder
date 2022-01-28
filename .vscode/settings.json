@@ -1,0 +1,32 @@
+{
+  "python.languageServer": "Pylance",
+  "python.linting.pylintEnabled": true,
+  "python.linting.enabled": true,
+  "python.linting.pylintPath": "pylint",
+  "python.formatting.provider": "yapf",
+  "editor.formatOnSave": true,
+  "python.defaultInterpreterPath": ".venv/bin/python",
+  "mypy.runUsingActiveInterpreter": true,
+  "emeraldwalk.runonsave": {
+    "commands": [
+      {
+        "match": "\\.py$",
+        "cmd": "cd ${workspaceFolder} && isort -m 9 --line-length 159 graphinder tests"
+      },
+      {
+        "match": "\\.py$",
+        "cmd": "cd ${workspaceFolder} && autoflake --in-place --remove-unused-variables --remove-all-unused-imports graphinder/**/*.py"
+      },
+      {
+        "match": "\\.py$",
+        "cmd": "cd ${workspaceFolder} && docformatter --wrap-summaries 160 --wrap-descriptions 160 -ri graphinder test"
+      },
+      {
+        "match": "\\.py$",
+        "cmd": "cd ${workspaceFolder} && unify -ri graphinder tests"
+      }
+    ]
+  },
+  "python.testing.pytestEnabled": true,
+  "python.testing.pytestPath": "../scripts/pytest-with-cov"
+}
