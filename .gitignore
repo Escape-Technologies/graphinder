@@ -1,0 +1,106 @@
+############################
+######### General ##########
+############################
+
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+.DocumentRevisions-V100
+.fseventsd
+.Spotlight-V100
+.TemporaryItems
+.Trashes
+.VolumeIcon.icns
+.com.apple.timemachine.donotpresent
+.AppleDB
+.AppleDesktop
+Network Trash Folder
+Temporary Items
+.apdisk
+._*
+Icon
+
+# Linux
+*~
+
+# Windows
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+$RECYCLE.BIN/
+*.cab
+*.msi
+*.msm
+*.msp
+
+# Packages
+*.7z
+*.csv
+*.dat
+*.dmg
+*.gz
+*.iso
+*.jar
+*.rar
+*.tar
+*.zip
+*.com
+*.class
+*.dll
+*.exe
+*.o
+*.seed
+*.so
+*.swo
+*.swp
+*.swn
+*.swm
+*.out
+*.pid
+*.prof
+
+# Editors
+.idea
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+
+
+############################
+######### Specific #########
+############################
+
+# Python
+__pycache__/
+*.egg-info/
+.ipynb_checkpoints
+*.pyc
+*.pyo
+*.ipynb
+*.env
+.mypy_cache
+.pytest_cache
+.coverage
+.venv
+build/
+dist/
+setup.py
+*.spec
+snap
+
+# Logs
+logs
+*.log*
+storage
+
+# Mookme
+node_modules
+**/.hooks/*.local.json
+
+# Escape
+.escaperc.json
+_debug/
+security-report.pdf
+.tmp
