@@ -10,6 +10,7 @@ from loguru import logger
 from playwright.sync_api import sync_playwright
 
 from graphinder.extractors import extract_from_scripts, network_extract_endpoint
+from graphinder.utils import remove_duplicate_domains
 
 
 def handle_domain_name(domain: str, verbose: bool, scripts: bool, subdomains: bool, subdomains_bruteforce: bool, output_file: click.Path | None) -> None:
@@ -19,9 +20,10 @@ def handle_domain_name(domain: str, verbose: bool, scripts: bool, subdomains: bo
 
     if subdomains or subdomains_bruteforce:
         # Find all the subdomains for the given domain
-        sbdomains = sublist3r.main(
+        sdomains = sublist3r.main(
             domain, 40, savefile=None, ports=None, silent=not verbose, verbose=verbose, enable_bruteforce=subdomains_bruteforce, engines=None
         )
+        sbdomains = remove_duplicate_domains(sdomains)
     else:
         sbdomains = [domain]
 
