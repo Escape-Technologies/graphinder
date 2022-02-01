@@ -1,9 +1,56 @@
 # Graphinder
 
+Graphinder is a tool that extracts all GraphQL endpoints from a given domain.
 
+## Installation
 
-## Getting started
+Clone the repository and run the installation script
 
-To make it easy for you to get started with GitLab, here's a list of recommended next steps.
+```bash
+git clone "url-of-this-project"
+cd Graphinder
+./install-dev.sh
+```
 
-Already a pro? Just edit this README.md and make it your own. Want to make it easy? [Use the template at the bottom](#editing-this-readme)!
+## Usage
+
+run this command to enter the virtual enviroment
+
+```bash
+poetry shell
+```
+
+### Basic Scan
+
+The basic scan consitutes of finding GraphQL requests found on the given domain
+
+```bash
+graphinder finder -u example.com
+```
+
+### Deep Scan
+
+A deep scan consistes of:
+
+- running basic scan on all detected subdomains (`-b`)
+- searching all scripts loaded by the browser for graphql endpoint (`-s`)
+
+```bash
+graphinder finder -s -b -u example.com
+```
+
+### Extra features
+
+`-f <FILE_PATH>`: input domain names from file
+`-o <FILE_PATH>`: output the results to file
+`-v`: Verbose mode
+
+## Contributing
+
+Pull requests are welcome. For major changes, please open an issue first to discuss what you would like to change.
+
+Please make sure to update tests as appropriate.
+
+## License
+
+[MIT](https://choosealicense.com/licenses/mit/)

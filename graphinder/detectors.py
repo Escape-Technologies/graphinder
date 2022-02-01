@@ -18,7 +18,13 @@ def is_gql_endpoint(url: str) -> bool:
 
         try:
             response_gql = requests.post(url, json=PAYLOAD)
-            _ = response_gql.json()['data']['__typename']
-            return True
+            if response_gql.json().get('data', {}).get('__typename') is not None:
+                return True
+            if response_gql.json().get('errors', [{}])[0].get('message') is not None:
+                return True
+
+            return False
+
         except Exception:
+
             return False
