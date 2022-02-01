@@ -52,8 +52,9 @@ def handle_domain_name(domain: str, verbose: bool, scripts: bool, subdomains: bo
 
     if output_file is not None:
         with open(output_file, 'a', encoding='utf-8') as f:  #type:ignore
+            f.write(f'{domain}:\n')
             for item in endpoints:
-                f.write(f'{item}\n')
+                f.write(f'\t{item}\n')
 
 
 def handle_domain_file(file: click.File, verbose: bool, scripts: bool, subdomains: bool, subdomains_bruteforce: bool, output_file: click.Path | None) -> None:
