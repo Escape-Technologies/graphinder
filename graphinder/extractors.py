@@ -18,20 +18,29 @@ def network_extract_endpoint(url: str, p: Playwright) -> list:
 
     results: list = []
 
-    def is_gql(response: str) -> bool:
+    def is_gql(response: str, request_data: str) -> bool:
 
-        payloads = ['{\'data\':', '{"data":']
+        res_payloads = ['{\'data\':', '{"data":']
+        req_payloads = ['"query"', 'query{', 'mutation{', 'subscription{']
 
-        for payload in payloads:
+        res_detection: bool = False
+        req_detection: bool = False
+
+        for payload in res_payloads:
             if payload in response.strip():
-                return True
-        return False
+                res_detection = True
+
+        for payload in req_payloads:
+            if payload in request_data.strip():
+                req_detection = True
+
+        return req_detection and res_detection
 
     def handle_response(response: Any) -> None:
         try:
             response_text = response.text()
 
-            if is_gql(response_text):
+            if is_gql(response_text, response.request.post_data.lower()):
                 results.append(response.url)
         except Exception:
             pass
@@ -87,5 +96,5 @@ def extract_from_scripts(domain: str) -> list:
                     if is_gql_endpoint(potential_gql):
                         return [potential_gql]
         return []
-    except requests.exceptions.ConnectionError:  #in case the fetched page is down
+    except Exception:  #in case the fetched page is down
         return []
