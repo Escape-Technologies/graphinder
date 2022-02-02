@@ -14,9 +14,11 @@ from graphinder.scanner import handle_domain_file, handle_domain_name
 @click.option('--scripts', '-s', is_flag=True, help='check the the scripts on a page for graphql calls', default=False)
 @click.option('--subdomains', '-d', is_flag=True, help='check for all the subdomains that could be detected for the supplied domain', default=False)
 @click.option('--subdomains_bruteforce', '-b', is_flag=True, help='detected subdomains via bruteforce (less recomended)', default=False)
+@click.option('--directory_bruteforce', '-g', is_flag=True, help='Detected GraphQL via bruteforcing directories', default=False)
 @click.option('--output_file', '-o', type=click.Path())
 def finder(
-    domain: str | None, file: click.File | None, verbose: bool, scripts: bool, subdomains: bool, subdomains_bruteforce: bool, output_file: click.Path | None
+    domain: str | None, file: click.File | None, verbose: bool, scripts: bool, subdomains: bool, subdomains_bruteforce: bool, output_file: click.Path | None,
+    directory_bruteforce: bool
 ) -> None:
     """Find the all GraphQL endpoints from a given domain/domains list."""
 
@@ -28,11 +30,11 @@ def finder(
         click.ClickException('Two domain name sources were provided. Only one is needed.')
 
     if domain is not None:
-        handle_domain_name(domain, verbose, scripts, subdomains, subdomains_bruteforce, output_file)
+        handle_domain_name(domain, verbose, scripts, subdomains, subdomains_bruteforce, directory_bruteforce, output_file)
         return None
 
     if file is not None:
-        handle_domain_file(file, verbose, scripts, subdomains, subdomains_bruteforce, output_file)
+        handle_domain_file(file, verbose, scripts, subdomains, subdomains_bruteforce, directory_bruteforce, output_file)
         return None
 
     click.ClickException('No domain source was provided')
