@@ -8,6 +8,8 @@ PAYLOAD = {'query': 'query{__typename}'}
 def is_gql_endpoint(url: str) -> bool:
     """check if the supplies url is a graphql endpoint."""
 
+    print(url)
+
     try:  # Check if the endpoint is similar to graphQL
 
         response_rest = requests.post(url)

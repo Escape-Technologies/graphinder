@@ -37,3 +37,23 @@ def remove_duplicate_domains(domains: list[str]) -> list[str]:
         corrected_domains.append(domain)
 
     return corrected_domains
+
+
+def reduce_domains(domains: list[str]) -> list[str]:
+    """reduces a list of subdomains to a list constaining only the domains most probable to contain GQL endpoint."""
+    reduced = []
+    for domain in domains:
+        if 'app' in domain or 'api' in domain or 'dev' in domain or 'graphql' in domain:
+            reduced.append(domain)
+    return reduced
+
+
+def format_dict(input_list: list) -> dict:
+    """given list will output a dict with the list elements as keys and sets values to []"""
+
+    list_dict: dict = {}
+
+    for elem in input_list:
+        list_dict[elem] = []
+
+    return list_dict
