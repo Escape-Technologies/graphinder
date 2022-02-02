@@ -12,6 +12,15 @@ from playwright.sync_api import Playwright
 from graphinder.detectors import is_gql_endpoint
 from graphinder.utils import filter_common
 
+DIR_LIST = [
+    'altair', 'explorer', 'graphiql', 'graphiql.css', 'graphiql/finland', 'graphiql.js', 'graphiql.min.css', 'graphiql.min.js', 'graphiql.php', 'graphql',
+    'graphql-explorer', 'graphql.php', 'playground', 'subscriptions', 'api/graphql', 'graph', 'v1/altair', 'v1/explorer', 'v1/graphiql', 'v1/graphiql.css',
+    'v1/graphiql/finland', 'v1/graphiql.js', 'v1/graphiql.min.css', 'v1/graphiql.min.js', 'v1/graphiql.php', 'v1/graphql', 'v1/graphql-explorer',
+    'v1/graphql.php', 'v1/playground', 'v1/subscriptions', 'v1/api/graphql', 'v1/graph', 'v2/altair', 'v2/explorer', 'v2/graphiql', 'v2/graphiql.css',
+    'v2/graphiql/finland', 'v2/graphiql.js', 'v2/graphiql.min.css', 'v2/graphiql.min.js', 'v2/graphiql.php', 'v2/graphql', 'v2/graphql.php', 'v2/playground',
+    'v2/subscriptions', 'v2/api/graphql', 'v2/graph'
+]
+
 
 def network_extract_endpoint(url: str, p: Playwright) -> list:
     """"extracts the GQL endpoint if found in the requests the page made."""
@@ -90,16 +99,22 @@ def extract_from_scripts(domain: str) -> list:
                     'https?://(?:[-\w.]|(?:%[\da-fA-F]{2}))+',  #pylint: disable=anomalous-backslash-in-string
                     conf_file
                 )
-                urls = filter_common(urls) + [url]
+                urls = filter_common(urls)
                 for urll in urls:
-                    print('hello:', urll)
                     potential_gql = f'{urll.removesuffix("/graphql").rstrip("/")}/graphql'
                     if is_gql_endpoint(potential_gql):
                         return [potential_gql]
 
-        if is_gql_endpoint(f'{url.removesuffix("/graphql").rstrip("/")}/graphql'):
-            return [f'{url.removesuffix("/graphql").rstrip("/")}/graphql']
-
         return []
     except Exception:  #in case the fetched page is down
         return []
+
+
+def brute_force_directories(url: str) -> list[str]:
+    """given a url will brute force directories to check for GraphQL endpoints."""
+    endpoints = []
+    for directory in DIR_LIST:
+        current_url = f'http://{url.removesuffix("/graphql").rstrip("/")}' + '/' + directory
+        if is_gql_endpoint(current_url):
+            endpoints.append(current_url)
+    return endpoints

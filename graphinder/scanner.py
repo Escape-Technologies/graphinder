@@ -10,12 +10,13 @@ from colorama import Fore  # type: ignore
 from loguru import logger
 from playwright.sync_api import sync_playwright
 
-from graphinder.extractors import extract_from_scripts, network_extract_endpoint
+from graphinder.extractors import brute_force_directories, extract_from_scripts, network_extract_endpoint
 from graphinder.utils import format_dict, reduce_domains, remove_duplicate_domains
 
 
-def handle_domain_name(
-    domain: str, verbose: bool, scripts: bool, subdomains: bool, subdomains_bruteforce: bool, output_file: click.Path | None, return_dict: bool = False
+def handle_domain_name( #pylint: disable=too-many-branches
+    domain: str, verbose: bool, scripts: bool, subdomains: bool, subdomains_bruteforce: bool, directory_bruteforce: bool, output_file: click.Path | None,
+    return_dict: bool = False
 ) -> dict | None:
     """extracts the GQL endpoint from the domain name provided."""
 
@@ -52,6 +53,12 @@ def handle_domain_name(
             endpoints += detected_endpoint
             endpoints = list(set(endpoints))
 
+    if directory_bruteforce:
+        logger.info('Bruteforcing Directories')
+        for subdomain, endpoints in dict_sbdomains.items():
+            logger.info(f'Bruteforcing {subdomain}')
+            endpoints += brute_force_directories(subdomain)
+
     for endpoints in dict_sbdomains.values():
         if endpoints:
             for endpoint in endpoints:
@@ -71,7 +78,9 @@ def handle_domain_name(
     return None
 
 
-def handle_domain_file(file: click.File, verbose: bool, scripts: bool, subdomains: bool, subdomains_bruteforce: bool, output_file: click.Path | None) -> None:
+def handle_domain_file(
+    file: click.File, verbose: bool, scripts: bool, subdomains: bool, subdomains_bruteforce: bool, directory_bruteforce: bool, output_file: click.Path | None
+) -> None:
     """extracts the GQL endpoint from the domain names in the text file provided."""
     domains = file.readlines()  #type: ignore
 
@@ -85,13 +94,16 @@ def handle_domain_file(file: click.File, verbose: bool, scripts: bool, subdomain
 
     bar_prog = progressbar.ProgressBar(maxval=len(domains), widgets=widgets).start()
 
+    results = []
+
     for i, line in enumerate(bar_prog(domains)):
         domain = line.strip()
-        results = []
-        results.append({domain: handle_domain_name(domain, verbose, scripts, subdomains, subdomains_bruteforce, output_file, return_dict=True)})
+        results.append({
+            domain: handle_domain_name(domain, verbose, scripts, subdomains, subdomains_bruteforce, directory_bruteforce, output_file, return_dict=True)
+        })
         sleep(0.5)
         bar_prog.update(i)
 
-    if output_file:
-        with open(output_file, 'w', encoding='utf-8') as f:  #type:ignore
-            json.dump(results, f)
+        if output_file:
+            with open(output_file, 'w', encoding='utf-8') as f:  #type:ignore
+                json.dump(results, f)
