@@ -34,9 +34,10 @@ A deep scan consistes of:
 
 - running basic scan on all detected subdomains (`-b`)
 - searching all scripts loaded by the browser for graphql endpoint (`-s`)
+- brute forcing the directories of all discovered urls (`-g`)
 
 ```bash
-graphinder finder -s -b -u example.com
+graphinder finder -s -b -g -u example.com
 ```
 
 ### Extra features
@@ -44,6 +45,7 @@ graphinder finder -s -b -u example.com
 `-f <FILE_PATH>`: input domain names from file
 `-o <FILE_PATH>`: output the results to file
 `-v`: Verbose mode
+`-r <INT>`: when the number of discovered domains exceeds the supplied parameter, graphinder will choose a subset of those domains to run the scan on
 
 ## Contributing
 
