@@ -15,7 +15,7 @@ from graphinder.utils import format_dict, reduce_domains, remove_duplicate_domai
 
 
 def handle_domain_name( #pylint: disable=too-many-branches
-    domain: str, verbose: bool, scripts: bool, subdomains: bool, subdomains_bruteforce: bool, directory_bruteforce: bool, output_file: click.Path | None,
+    domain: str, verbose: bool, scripts: bool, subdomains: bool, subdomains_bruteforce: bool, directory_bruteforce: bool, output_file: click.Path | None, reduce:int, #pylint: disable=line-too-long
     return_dict: bool = False
 ) -> dict | None:
     """extracts the GQL endpoint from the domain name provided."""
@@ -26,9 +26,10 @@ def handle_domain_name( #pylint: disable=too-many-branches
             domain, 40, savefile=None, ports=None, silent=not verbose, verbose=verbose, enable_bruteforce=subdomains_bruteforce, engines=None
         )
         sbdomains = remove_duplicate_domains(sdomains)
-        if len(sbdomains) > 100:  # TODO make this a given parameters
-            logger.info('reducing the number of subdomains')
-            sbdomains = reduce_domains(sbdomains)
+        if reduce is not None:
+            if len(sbdomains) > reduce:
+                logger.info('reducing the number of subdomains')
+                sbdomains = reduce_domains(sbdomains)
     else:
         sbdomains = [domain]
 
@@ -79,7 +80,8 @@ def handle_domain_name( #pylint: disable=too-many-branches
 
 
 def handle_domain_file(
-    file: click.File, verbose: bool, scripts: bool, subdomains: bool, subdomains_bruteforce: bool, directory_bruteforce: bool, output_file: click.Path | None
+    file: click.File, verbose: bool, scripts: bool, subdomains: bool, subdomains_bruteforce: bool, directory_bruteforce: bool, output_file: click.Path | None,
+    reduce: int
 ) -> None:
     """extracts the GQL endpoint from the domain names in the text file provided."""
     domains = file.readlines()  #type: ignore
@@ -99,7 +101,8 @@ def handle_domain_file(
     for i, line in enumerate(bar_prog(domains)):
         domain = line.strip()
         results.append({
-            domain: handle_domain_name(domain, verbose, scripts, subdomains, subdomains_bruteforce, directory_bruteforce, output_file, return_dict=True)
+            domain:
+                handle_domain_name(domain, verbose, scripts, subdomains, subdomains_bruteforce, directory_bruteforce, output_file, reduce, return_dict=True)
         })
         sleep(0.5)
         bar_prog.update(i)
