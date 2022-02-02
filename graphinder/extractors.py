@@ -60,7 +60,7 @@ def network_extract_endpoint(url: str, p: Playwright) -> list:
 
     browser.close()
 
-    return results
+    return list(set(results))
 
 
 def extract_from_scripts(domain: str) -> list:
@@ -90,11 +90,16 @@ def extract_from_scripts(domain: str) -> list:
                     'https?://(?:[-\w.]|(?:%[\da-fA-F]{2}))+',  #pylint: disable=anomalous-backslash-in-string
                     conf_file
                 )
-                urls = filter_common(urls)
+                urls = filter_common(urls) + [url]
                 for urll in urls:
-                    potential_gql = f'{urll.rstrip("/graphql")}/graphql'
+                    print('hello:', urll)
+                    potential_gql = f'{urll.removesuffix("/graphql").rstrip("/")}/graphql'
                     if is_gql_endpoint(potential_gql):
                         return [potential_gql]
+
+        if is_gql_endpoint(f'{url.removesuffix("/graphql").rstrip("/")}/graphql'):
+            return [f'{url.removesuffix("/graphql").rstrip("/")}/graphql']
+
         return []
     except Exception:  #in case the fetched page is down
         return []
