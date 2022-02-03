@@ -24,8 +24,10 @@ poetry shell
 
 The basic scan consitutes of finding GraphQL requests found on the given domain
 
+using the `-n` flag which causes the scanner to look inside network calls that the page does, looking for GraphQL endpoints
+
 ```bash
-graphinder finder -u example.com
+graphinder finder -n -u example.com
 ```
 
 ### Deep Scan

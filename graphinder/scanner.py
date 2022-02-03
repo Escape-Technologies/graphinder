@@ -15,7 +15,7 @@ from graphinder.utils import format_dict, reduce_domains, remove_duplicate_domai
 
 
 def handle_domain_name( #pylint: disable=too-many-branches
-    domain: str, verbose: bool, scripts: bool, subdomains: bool, subdomains_bruteforce: bool, directory_bruteforce: bool, output_file: click.Path | None, reduce:int, #pylint: disable=line-too-long
+    domain: str, verbose: bool,network_calls: bool, scripts: bool, subdomains: bool, subdomains_bruteforce: bool, directory_bruteforce: bool, output_file: click.Path | None, reduce:int, #pylint: disable=line-too-long
     return_dict: bool = False
 ) -> dict | None:
     """extracts the GQL endpoint from the domain name provided."""
@@ -35,14 +35,14 @@ def handle_domain_name( #pylint: disable=too-many-branches
 
     dict_sbdomains = format_dict(sbdomains)
 
-    logger.info('Extracting GraphQL calls')
-
-    with sync_playwright() as p:
-        for subdomain, endpoints in dict_sbdomains.items():
-            endpoints += network_extract_endpoint(subdomain, p)
-            sleep(0.1)
-            if endpoints:
-                logger.info(f'Detected: {endpoints}')
+    if network_calls:
+        logger.info('Extracting GraphQL calls')
+        with sync_playwright() as p:
+            for subdomain, endpoints in dict_sbdomains.items():
+                endpoints += network_extract_endpoint(subdomain, p)
+                sleep(0.1)
+                if endpoints:
+                    logger.info(f'Detected: {endpoints}')
 
     if scripts:
         logger.info('Extracting GraphQL endpoints from scripts found on page')
@@ -58,7 +58,10 @@ def handle_domain_name( #pylint: disable=too-many-branches
         logger.info('Bruteforcing Directories')
         for subdomain, endpoints in dict_sbdomains.items():
             logger.info(f'Bruteforcing {subdomain}')
-            endpoints += brute_force_directories(subdomain)
+            detected = brute_force_directories(subdomain)
+            if detected:
+                logger.info(f'Detected: {detected}')
+            endpoints += detected
 
     for endpoints in dict_sbdomains.values():
         if endpoints:
@@ -80,8 +83,8 @@ def handle_domain_name( #pylint: disable=too-many-branches
 
 
 def handle_domain_file(
-    file: click.File, verbose: bool, scripts: bool, subdomains: bool, subdomains_bruteforce: bool, directory_bruteforce: bool, output_file: click.Path | None,
-    reduce: int
+    file: click.File, verbose: bool, network_calls: bool, scripts: bool, subdomains: bool, subdomains_bruteforce: bool, directory_bruteforce: bool,
+    output_file: click.Path | None, reduce: int
 ) -> None:
     """extracts the GQL endpoint from the domain names in the text file provided."""
     domains = file.readlines()  #type: ignore
@@ -102,7 +105,9 @@ def handle_domain_file(
         domain = line.strip()
         results.append({
             domain:
-                handle_domain_name(domain, verbose, scripts, subdomains, subdomains_bruteforce, directory_bruteforce, output_file, reduce, return_dict=True)
+                handle_domain_name(
+                    domain, verbose, network_calls, scripts, subdomains, subdomains_bruteforce, directory_bruteforce, output_file, reduce, return_dict=True
+                )
         })
         sleep(0.5)
         bar_prog.update(i)
