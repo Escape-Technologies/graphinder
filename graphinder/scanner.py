@@ -58,7 +58,10 @@ def handle_domain_name( #pylint: disable=too-many-branches
         logger.info('Bruteforcing Directories')
         for subdomain, endpoints in dict_sbdomains.items():
             logger.info(f'Bruteforcing {subdomain}')
-            endpoints += brute_force_directories(subdomain)
+            detected = brute_force_directories(subdomain)
+            if detected:
+                logger.info(f'Detected: {detected}')
+            endpoints += detected
 
     for endpoints in dict_sbdomains.values():
         if endpoints:
