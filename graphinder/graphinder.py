@@ -2,6 +2,7 @@
 import sys
 
 import click
+from colorama import Fore  # type:ignore
 from loguru import logger
 
 from graphinder.scanner import handle_domain_file, handle_domain_name
@@ -30,6 +31,13 @@ def finder(
 
     if domain is not None and file is not None:
         click.ClickException('Two domain name sources were provided. Only one is needed.')
+
+    if not network_calls and not scripts and not directory_bruteforce:
+        if verbose:
+            logger.critical('No scanning Mode Selected:\n Exiting.....')
+            return None
+        print(Fore.RED + 'No scanning Mode Selected:\n Exiting.....')
+        return None
 
     if domain is not None:
         handle_domain_name(domain, verbose, network_calls, scripts, subdomains, subdomains_bruteforce, directory_bruteforce, output_file, reduce)

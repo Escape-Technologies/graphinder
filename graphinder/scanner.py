@@ -35,9 +35,8 @@ def handle_domain_name( #pylint: disable=too-many-branches
 
     dict_sbdomains = format_dict(sbdomains)
 
-    logger.info('Extracting GraphQL calls')
-
     if network_calls:
+        logger.info('Extracting GraphQL calls')
         with sync_playwright() as p:
             for subdomain, endpoints in dict_sbdomains.items():
                 endpoints += network_extract_endpoint(subdomain, p)
