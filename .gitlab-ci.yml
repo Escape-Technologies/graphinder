@@ -3,7 +3,7 @@
 ###############################
 
 variables:
-  MIN_TEST_COV: 20 # Minimum coverage for unit tests globally
+  MIN_TEST_COV: 80 # Minimum coverage for unit tests globally
 
 ################################
 ########### STAGES #############
@@ -44,6 +44,8 @@ stages:
       - $WORKING_DIR/.pytest_cache
   before_script:
     - cd $WORKING_DIR
+    - apt-get update
+    - apt-get install gcc g++ -y
     - pip install poetry
     - poetry config virtualenvs.in-project true
     - poetry install
@@ -72,6 +74,8 @@ stages:
       - $WORKING_DIR/.pytest_cache
   before_script:
     - cd $WORKING_DIR
+    - apt-get update
+    - apt-get install gcc g++ -y
     - pip install poetry
     - poetry config virtualenvs.in-project true
     - poetry install --no-dev
