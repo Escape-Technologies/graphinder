@@ -104,3 +104,8 @@ node_modules
 _debug/
 security-report.pdf
 .tmp
+
+# Assets
+
+subfinder
+results.txt

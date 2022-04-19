@@ -2,6 +2,17 @@
 
 Graphinder is a tool that extracts all GraphQL endpoints from a given domain.
 
+## Run with docker
+
+```bash
+docker run --rm escapetech/graphinder -it -v $(pwd):/usr/bin/graphinder
+```
+
+```bash
+# Local build
+docker build -t escapetech/graphinder .
+```
+
 ## Installation
 
 Clone the repository and run the installation script
@@ -12,42 +23,41 @@ cd Graphinder
 ./install-dev.sh
 ```
 
-## Usage
-
-run this command to enter the virtual enviroment
+Run this command to enter the virtual enviroment
 
 ```bash
 poetry shell
 ```
 
-### Basic Scan
+## Usage
 
-The basic scan consitutes of finding GraphQL requests found on the given domain
+A Scan consistes of:
 
-using the `-n` flag which causes the scanner to look inside network calls that the page does, looking for GraphQL endpoints
+- Running on a specific domain (`-d`, `--domain`) or a list of domains (`-f`, `--input-file`).
+- Searching all scripts loaded by the browser for graphql endpoint (`-s`, `--script`)
+- Brute forcing the directories of all discovered urls (`-b`, `--bruteforce`)
+
+By default, bruteforce and script search are enabled.
 
 ```bash
-graphinder finder -n -u example.com
+graphinder -d example.com
 ```
 
-### Deep Scan
-
-A deep scan consistes of:
-
-- running basic scan on all detected subdomains (`-b`)
-- searching all scripts loaded by the browser for graphql endpoint (`-s`)
-- brute forcing the directories of all discovered urls (`-g`)
-
 ```bash
-graphinder finder -s -b -g -u example.com
+graphinder -f domains.txt
 ```
 
 ### Extra features
 
-`-f <FILE_PATH>`: input domain names from file
-`-o <FILE_PATH>`: output the results to file
-`-v`: Verbose mode
-`-r <INT>`: when the number of discovered domains exceeds the supplied parameter, graphinder will choose a subset of those domains to run the scan on
+- `--no-bruteforce`: Disable bruteforce
+- `--no-script`: Disable script search
+- `-f --input-file <FILE_PATH>`: Input domain names from file
+- `-w --max-workers <int>`: Maximum of concurrent workers on multiple domains.
+- `-o --output-file <FILE_PATH>`: Output the results to file
+- `-v --verbose --no-verbose`: Verbose mode
+- `-r --reduce`: The maximum number of subdomains to scan.
+
+If you experience any issues, irregularities or networking bottlenecks, please reduce your number of workers, otherwise, better is your network, the more workers you can have.
 
 ## Contributing
 
