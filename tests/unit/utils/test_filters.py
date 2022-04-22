@@ -47,17 +47,4 @@ def test_filter_urls() -> None:
     for url in gql_endpoints_characterizer():
         _input.add(Url('https://example.com/' + url))
 
-    assert filter_urls(_input) == {
-        Url('https://example.com/v1/graphql/schema.json'),
-        Url('https://example.com/v1/graphql/schema.yaml'),
-        Url('https://example.com/v1/graphiql.min.css'),
-        Url('https://example.com/v1/graphql-explorer'),
-        Url('https://example.com/v2/graphiql.min.css'),
-        Url('https://example.com/v2/graphql/schema.json'),
-        Url('https://example.com/v2/graphql-explorer'),
-        Url('https://example.com/graphql/schema.yaml'),
-        Url('https://example.com/graphiql.min.css'),
-        Url('https://example.com/v2/graphql/schema.yaml'),
-        Url('https://example.com/graphql-explorer'),
-        Url('https://example.com/graphql/schema.json'),
-    }
+    assert filter_urls(_input) == {Url('https://example.com/graph')}

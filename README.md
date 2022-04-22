@@ -1,32 +1,18 @@
 # Graphinder
 
+![Banner](banner.png)
+
+[![CI](https://github.com/Escape-Technologies/graphinder/actions/workflows/ci.yaml/badge.svg)](https://github.com/Escape-Technologies/graphinder/actions/workflows/ci.yaml)
+
+![Docker Pulls](https://img.shields.io/docker/pulls/escapetech/graphinder)
+![Docker Image Size (latest by date)](https://img.shields.io/docker/image-size/escapetech/graphinder)
+
 Graphinder is a tool that extracts all GraphQL endpoints from a given domain.
 
 ## Run with docker
 
 ```bash
-docker run --rm escapetech/graphinder -it -v $(pwd):/usr/bin/graphinder
-```
-
-```bash
-# Local build
-docker build -t escapetech/graphinder .
-```
-
-## Installation
-
-Clone the repository and run the installation script
-
-```bash
-git clone "url-of-this-project"
-cd Graphinder
-./install-dev.sh
-```
-
-Run this command to enter the virtual enviroment
-
-```bash
-poetry shell
+docker run -it -v $(pwd):/usr/bin/graphinder --rm escapetech/graphinder graphinder -d example.com
 ```
 
 ## Usage
@@ -58,6 +44,22 @@ graphinder -f domains.txt
 - `-r --reduce`: The maximum number of subdomains to scan.
 
 If you experience any issues, irregularities or networking bottlenecks, please reduce your number of workers, otherwise, better is your network, the more workers you can have.
+
+## Local installation
+
+Clone the repository and run the installation script
+
+```bash
+git clone "url-of-this-project"
+cd Graphinder
+./install-dev.sh
+```
+
+Run this command to enter the virtual enviroment
+
+```bash
+poetry shell
+```
 
 ## Contributing
 

@@ -1,7 +1,7 @@
 """All filters functions."""
 
 from graphinder.entities.pool import Url
-from graphinder.utils.logger import get_logger
+from graphinder.io.providers import gql_endpoints_characterizer
 
 
 def filter_common(urls: set[str]) -> set[str]:
@@ -45,36 +45,27 @@ def filter_common(urls: set[str]) -> set[str]:
 def filter_urls(urls: set[Url]) -> set[Url]:
     """Remove urls that are not valid."""
 
-    urls_filtered = urls.copy()
+    # We will re-populate the list of endpoints, sorted in len order to unpack them.
+    _endpoints: list[str] = gql_endpoints_characterizer()
+    _endpoints.sort(key=len, reverse=True)
 
+    # Let's unpack the list of endpoints.
+    unpacked_urls: dict[str, list[Url]] = {}
     for url in urls:
-        _slashs: int = url.count('/')
+        for endpoint in _endpoints:
+            if url.endswith(endpoint):
 
-        if url not in urls_filtered:
-            continue
+                unpacked_url = url.removesuffix(endpoint)
+                if unpacked_url not in unpacked_urls:
+                    unpacked_urls[unpacked_url] = []
 
-        if _slashs < 3:
-            get_logger('filter').error(f'Removing invalid url: {url}')
-            continue
+                unpacked_urls[unpacked_url].append(url)
 
-        subdomain: str = '/'.join(url.split('/')[:3]) + '/'
-        for _url in urls:
+                break
 
-            # Check if the url has been removed from filter already
-            if url not in urls_filtered or _url == url:
-                continue
+    # Reconstruct the list of endpoints using the smaller one.
+    filtered_urls: set[Url] = set()
+    for _urls in unpacked_urls.values():
+        filtered_urls.add(min(_urls, key=len))
 
-            # Make sure we are on the same directory, not in /api or whatever
-            if _url.count('/') != _slashs:
-                continue
-
-            # Always keep the shortest url
-            if subdomain in _url and len(_url) > len(url):
-                if 'v2' in url and not 'v2' in _url:
-                    continue
-                if 'v1' in url and not 'v1' in _url:
-                    continue
-
-                urls_filtered.remove(url)
-
-    return urls_filtered
+    return filtered_urls
