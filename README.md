@@ -48,7 +48,7 @@ If you experience any issues, irregularities or networking bottlenecks, please r
 Clone the repository and run the installation script
 
 ```bash
-git clone "url-of-this-project"
+git clone https://github.com/Escape-Technologies/graphinder.git
 cd Graphinder
 ./install-dev.sh
 ```
@@ -57,6 +57,12 @@ Run this command to enter the virtual enviroment
 
 ```bash
 poetry shell
+```
+
+Profit !
+
+```bash
+graphinder -d example.com
 ```
 
 ## Contributing
