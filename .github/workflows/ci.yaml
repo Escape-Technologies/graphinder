@@ -6,7 +6,7 @@ env:
   MIN_TEST_COV: 80
 
 jobs:
-  setup:
+  CI:
     runs-on: ubuntu-20.04
     steps:
       - uses: actions/checkout@v2

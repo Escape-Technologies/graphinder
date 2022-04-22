@@ -1,13 +1,11 @@
-# Graphinder
+# Graphinder [![CI](https://github.com/Escape-Technologies/graphinder/actions/workflows/ci.yaml/badge.svg)](https://github.com/Escape-Technologies/graphinder/actions/workflows/ci.yaml) [![codecov](https://codecov.io/gh/Escape-Technologies/graphinder/branch/main/graph/badge.svg?token=4KGK1LTHRO)](https://codecov.io/gh/Escape-Technologies/graphinder)
+
+Graphinder is a tool that extracts all GraphQL endpoints from a given domain.
 
 ![Banner](banner.png)
 
-[![CI](https://github.com/Escape-Technologies/graphinder/actions/workflows/ci.yaml/badge.svg)](https://github.com/Escape-Technologies/graphinder/actions/workflows/ci.yaml)
-
 ![Docker Pulls](https://img.shields.io/docker/pulls/escapetech/graphinder)
 ![Docker Image Size (latest by date)](https://img.shields.io/docker/image-size/escapetech/graphinder)
-
-Graphinder is a tool that extracts all GraphQL endpoints from a given domain.
 
 ## Run with docker
 
