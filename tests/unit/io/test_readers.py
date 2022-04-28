@@ -29,7 +29,7 @@ def test_read_domains_input_file() -> None:
     setup_logger(False)
 
     with open('tests/unit/io/test_readers.txt', 'r', encoding='utf-8') as input_file:
-        out: list[Domain] = read_domains(input_file, None)
+        out: list[Domain] = read_domains(input_file, None)  # type: ignore[arg-type]
 
     assert len(out) == 2
 
