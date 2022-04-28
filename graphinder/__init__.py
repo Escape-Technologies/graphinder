@@ -2,7 +2,7 @@
 
 from datetime import date
 
-__version__ = '1.0.0'
+__version__ = '1.0.20'
 
 print(
     r"""

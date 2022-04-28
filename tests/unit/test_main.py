@@ -11,7 +11,7 @@ from graphinder.utils.logger import get_logger
 
 def test_version() -> None:
     """version test."""
-    assert __version__ == '1.0.0', 'Version has been changed, please update the test.'
+    assert __version__ == '1.0.20', 'Version has been changed, please update the test.'
 
 
 def test_argument_builder() -> None:
