@@ -10,6 +10,7 @@ Graphinder is a tool that extracts all GraphQL endpoints from a given domain.
 ## Run with docker
 
 ```bash
+docker pull escapetech/graphinder
 docker run -it --rm escapetech/graphinder graphinder -d example.com
 ```
 
