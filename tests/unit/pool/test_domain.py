@@ -19,13 +19,21 @@ async def test_domain_class() -> None:
     fetch_assets()
 
     domain.fetch_subdomains()
-
     assert len(domain.subdomains) == 100, 'There should be max 100 subdomain.'
 
     async with aiohttp.ClientSession() as session:
 
         assert await domain.fetch_script(session, 'https://example.com') == set()
 
+
+@pytest.mark.asyncio
+async def test_domain_class_2() -> None:
+    """More domain class test."""
+
+    setup_logger(False)
+    domain: Domain = Domain('example2.com')
+
+    async with aiohttp.ClientSession() as session:
         res: set[Url] = await domain.fetch_script(session, 'https://cdn.jsdelivr.net/npm/graphql-playground-react/build/static/js/middleware.js')
         assert len(res) == 13
 

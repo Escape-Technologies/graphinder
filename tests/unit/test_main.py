@@ -61,3 +61,11 @@ def test_main() -> None:
     """main test."""
     sys.argv = ['graphinder']
     assert main() is False
+
+
+def test_full_run() -> None:
+    """Test a complete run."""
+
+    sys.argv = ['graphinder', '-d', 'example.com']
+
+    assert main() is True

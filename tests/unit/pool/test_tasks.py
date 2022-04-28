@@ -93,7 +93,9 @@ async def test_process_task() -> None:
         assert len(asyncio.all_tasks()) == 1, 'There should be 1 tasks.'
 
         try:
-            await process_task(Task('example.com', 'unknown tag', 'example.com'), session, 'example.com')  # type: ignore
+            task = Task('example.com', 'unknown tag', 'example.com')  # type: ignore[arg-type]
+            await process_task(task, session, Domain('example.com'))
+
             assert False, 'Unknown tag should raise an error.'
         except NotImplementedError:
             pass
