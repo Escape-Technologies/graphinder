@@ -11,13 +11,13 @@ Graphinder is a tool that extracts all GraphQL endpoints from a given domain.
 
 ```bash
 docker pull escapetech/graphinder
-docker run -it --rm escapetech/graphinder graphinder -d example.com
+docker run -it --rm escapetech/graphinder -d example.com
 ```
 
 If you want to save your results.json file, you can use:
 
 ```bash
-docker run -it --name graphinder escapetech/graphinder graphinder -d example.com
+docker run -it --name graphinder escapetech/graphinder -d example.com
 docker cp graphinder:/graphinder/results.json results.json
 docker rm -f graphinder
 ```
