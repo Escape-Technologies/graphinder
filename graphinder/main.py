@@ -16,7 +16,7 @@ def argument_builder(args: list[str]) -> argparse.Namespace:
     parser = argparse.ArgumentParser()
     parser.add_argument('--domain', '-d', dest='domain', type=str, help='Domain to scan')
     parser.add_argument('--input-file', '-f', dest='input_file', type=argparse.FileType('r'), help='The path to the text file of domains to scan')
-    parser.add_argument('--output-file', '-o', dest='output_file', type=argparse.FileType('w'), help='The path of the results file', default='results.txt')
+    parser.add_argument('--output-file', '-o', dest='output_file', type=argparse.FileType('w'), help='The path of the results file', default='results.json')
     parser.add_argument('--verbose', '-v', dest='verbose_mode', type=bool, help='Verbose', default=False, action=argparse.BooleanOptionalAction)
     parser.add_argument(
         '--script', '-s', dest='script_mode', type=bool, help='Check scripts assets to extract GraphQL calls', default=True,

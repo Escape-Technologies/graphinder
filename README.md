@@ -14,6 +14,14 @@ docker pull escapetech/graphinder
 docker run -it --rm escapetech/graphinder graphinder -d example.com
 ```
 
+If you want to save your results.json file, you can use:
+
+```bash
+docker run -it --name graphinder escapetech/graphinder graphinder -d example.com
+docker cp graphinder:/graphinder/results.json results.json
+docker rm -f graphinder
+```
+
 ## Usage
 
 A Scan consistes of:
