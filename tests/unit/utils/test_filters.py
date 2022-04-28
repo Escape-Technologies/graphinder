@@ -9,6 +9,8 @@ def test_filter_common() -> None:
     """test for filter_common."""
 
     _input: set[str] = {
+        'http://a',
+        'http://x',
         'https://w3.org',
         'https://localhost',
         'https://schema.org',

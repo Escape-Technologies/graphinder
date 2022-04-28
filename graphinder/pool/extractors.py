@@ -3,7 +3,7 @@
 from urllib.parse import urljoin
 
 import aiohttp
-from bs4 import BeautifulSoup as bs4  # type: ignore
+from bs4 import BeautifulSoup as bs4  # type: ignore[import]
 
 from graphinder.entities.errors import AwaitableRequestException
 from graphinder.entities.pool import Url
