@@ -28,7 +28,8 @@ def argument_builder(args: list[str]) -> argparse.Namespace:
     )
     parser.add_argument('--reduce', '-r', dest='reduce_mode', type=int, help='The maximum number of subdomains to scan.', default=100)
     parser.add_argument(
-        '--max-workers', '-w', dest='max_workers', type=int, help='Maximum number of concurrent workers in multi-urls mode.', default=(cpu_count() / 2)
+        '--max-workers', '-w', dest='max_workers', type=int, help='Maximum number of concurrent workers in multi-urls mode.',
+        default=(max(1, int(cpu_count() / 2)))
     )
     return parser.parse_args(args)
 
