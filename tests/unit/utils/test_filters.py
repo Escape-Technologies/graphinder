@@ -2,7 +2,7 @@
 
 from graphinder.entities.pool import Url
 from graphinder.io.providers import gql_endpoints_characterizer
-from graphinder.utils.filters import filter_common, filter_urls
+from graphinder.utils.filters import filter_common, filter_urls, remove_duplicate_domains
 
 
 def test_filter_common() -> None:
@@ -48,3 +48,16 @@ def test_filter_urls() -> None:
         _input.add(Url('https://example.com/' + url))
 
     assert filter_urls(_input) == {Url('https://example.com/graph')}
+
+
+def test_remove_duplicate_domains() -> None:
+    """test for duplicate_domain."""
+
+    domains: list[str] = [
+        'example.com',
+        'www.example.com',
+    ]
+
+    assert remove_duplicate_domains(domains) == [
+        'example.com',
+    ]

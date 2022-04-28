@@ -7,6 +7,7 @@ import aiohttp
 from graphinder.entities.pool import Url
 from graphinder.pool.detectors import is_gql_endpoint
 from graphinder.pool.extractors import extract_script_urls_from_page, extract_urls_from_script
+from graphinder.utils.filters import remove_duplicate_domains
 from graphinder.utils.logger import get_logger
 
 
@@ -32,7 +33,9 @@ class Domain:
 
         self.subdomains = _finder.read().split('\n')
 
+        self.subdomains = remove_duplicate_domains(self.subdomains)
         self.logger.info(f'found { len(self.subdomains) } subdomains.')
+
         if len(self.subdomains) > reduce:
             self.logger.debug('reducing the number of subdomains.')
             self.subdomains = self.subdomains[:reduce]

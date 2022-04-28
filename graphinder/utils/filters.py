@@ -69,3 +69,16 @@ def filter_urls(urls: set[Url]) -> set[Url]:
         filtered_urls.add(min(_urls, key=len))
 
     return filtered_urls
+
+
+def remove_duplicate_domains(domains: list[str]) -> list[str]:
+    """if domains has example.com and www.example.com this will remove www.example.com."""
+    corrected_domains = []
+
+    for domain in domains:
+        if domain.startswith('www.'):
+            if domain.lstrip('www.') in domains:
+                continue
+        corrected_domains.append(domain)
+
+    return corrected_domains
