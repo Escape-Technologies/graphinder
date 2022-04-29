@@ -73,6 +73,7 @@ def filter_urls(urls: set[Url]) -> set[Url]:
 
 def remove_duplicate_domains(domains: list[str]) -> list[str]:
     """if domains has example.com and www.example.com this will remove www.example.com."""
+
     corrected_domains = []
 
     for domain in domains:
@@ -82,3 +83,20 @@ def remove_duplicate_domains(domains: list[str]) -> list[str]:
         corrected_domains.append(domain)
 
     return corrected_domains
+
+
+def transform_url_in_domain(url: str) -> str:
+    """Transform a given url in domain.
+
+    http(s)://(www.)
+    """
+
+    if url.startswith('http://'):
+        url = url.lstrip('http://')
+    elif url.startswith('https://'):
+        url = url.lstrip('https://')
+
+    if url.startswith('www.'):
+        url = url.lstrip('www.')
+
+    return url
