@@ -1,8 +1,9 @@
 # pylint: skip-file
 
+import importlib.metadata
 from datetime import date
 
-__version__ = '1.0.31'
+__version__ = importlib.metadata.version(__package__ or __name__)
 
 print(
     r"""
