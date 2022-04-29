@@ -31,7 +31,7 @@ jobs:
       - name: Run tests
         run: |
           source .venv/bin/activate
-          pytest --cov=$MODULE_NAME --cov-report=xml --cov-fail-under=$MIN_TEST_COV tests/unit
+          pytest --reruns=3 --cov=$MODULE_NAME --cov-report=xml --cov-fail-under=$MIN_TEST_COV tests/unit
       - name: Upload coverage to Codecov
         uses: codecov/codecov-action@v2
         with:

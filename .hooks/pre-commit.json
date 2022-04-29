@@ -1,38 +1,38 @@
 {
-  "type": "python",
-  "venvActivate": "./.venv/bin/activate",
-  "steps": [
-    {
-      "name": "autoflake",
-      "command": "autoflake -ri --remove-unused-variable --ignore-init-module-imports --remove-all-unused-imports graphinder tests"
-    },
-    {
-      "name": "isort",
-      "command": "isort -m 9 --line-length 159 graphinder tests"
-    },
-    {
-      "name": "unify",
-      "command": "unify -ri graphinder tests"
-    },
-    {
-      "name": "docformatter",
-      "command": "docformatter --wrap-summaries 160 --wrap-descriptions 160 -ri graphinder tests"
-    },
-    {
-      "name": "yapf",
-      "command": "yapf -ri graphinder tests"
-    },
-    {
-      "name": "pylint",
-      "command": "pylint --load-plugins pylint_quotes graphinder tests"
-    },
-    {
-      "name": "mypy",
-      "command": "mypy graphinder tests"
-    },
-    {
-      "name": "pytest",
-      "command": "pytest tests/unit"
-    }
-  ]
+    "type": "python",
+    "venvActivate": "./.venv/bin/activate",
+    "steps": [
+        {
+            "name": "autoflake",
+            "command": "autoflake -ri --remove-unused-variable --ignore-init-module-imports --remove-all-unused-imports graphinder tests"
+        },
+        {
+            "name": "isort",
+            "command": "isort -m 9 --line-length 159 graphinder tests"
+        },
+        {
+            "name": "unify",
+            "command": "unify -ri graphinder tests"
+        },
+        {
+            "name": "docformatter",
+            "command": "docformatter --wrap-summaries 160 --wrap-descriptions 160 -ri graphinder tests"
+        },
+        {
+            "name": "yapf",
+            "command": "yapf -ri graphinder tests"
+        },
+        {
+            "name": "pylint",
+            "command": "pylint --load-plugins pylint_quotes graphinder tests"
+        },
+        {
+            "name": "mypy",
+            "command": "mypy graphinder tests"
+        },
+        {
+            "name": "pytest",
+            "command": "pytest --reruns=3 tests/unit"
+        }
+    ]
 }

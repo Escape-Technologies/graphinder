@@ -89,6 +89,7 @@ dist/
 setup.py
 *.spec
 snap
+coverage.xml
 
 # Logs
 logs
