@@ -3,6 +3,8 @@
 import asyncio
 import os
 
+import aiohttp
+
 from graphinder.entities.pool import Url
 from graphinder.pool.detectors import is_gql_endpoint
 from graphinder.pool.extractors import extract_script_urls_from_page, extract_urls_from_script
@@ -15,6 +17,7 @@ class Domain:
     """Domain entity."""
 
     semaphore: asyncio.Semaphore | None
+    session: aiohttp.ClientSession
 
     def __init__(self, url: str, precision_mode: bool = False) -> None:
         """Init domain."""
@@ -22,8 +25,6 @@ class Domain:
         self.url = url
         self.logger = get_logger(self.url)
         self.subdomains: list[str] = []
-
-        self.session = None
 
         if precision_mode:
             self.semaphore = asyncio.Semaphore(100)
