@@ -27,6 +27,8 @@ RUN poetry install --no-dev
 
 FROM python-base as release
 
+ENV PYTHONWARNINGS="ignore"
+
 COPY --from=builder-base $VENV_PATH $VENV_PATH
 COPY ./$APP_NAME /$APP_NAME/
 
