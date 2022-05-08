@@ -8,5 +8,5 @@ def display_results(results: Results) -> None:
 
     for domain in results:
         print(f'{domain} - {len(results[domain])}')
-        for result in results[domain]:
+        for result in sorted(results[domain]):
             print(f'\t{result}')

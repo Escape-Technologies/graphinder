@@ -60,38 +60,47 @@ def init_domain_tasks(domain: Domain, args: argparse.Namespace) -> TasksList:
     return generate_tasks(domain, args)
 
 
-async def add_tasks(domain: Domain, urls: set[Url], tag: TaskTags, session: aiohttp.ClientSession) -> None:
+async def add_tasks(domain: Domain, urls: set[Url], tag: TaskTags) -> None:
     """Add tasks."""
 
     for url in urls:
-        asyncio.create_task(process_task(Task(domain.url, tag, url), session, domain))
+        asyncio.create_task(process_task(Task(domain.url, tag, url), domain))
 
 
-async def process_task(task: Task, session: aiohttp.ClientSession, domain: Domain) -> None:
+async def process_task(task: Task, domain: Domain) -> None:
     """Process task."""
 
+    # precision_mode: Lock the task semaphore for the given domain.
+    if domain.semaphore:
+        await domain.semaphore.acquire()
+
+    # process task using the correct method.
     if task.tag == TaskTags.FETCH_SCRIPT:
-        _urls = await domain.fetch_script(session, task.url)
+        _urls = await domain.fetch_script(task.url)
         if _urls:
-            await add_tasks(domain, _urls, TaskTags.FETCH_ENDPOINT, session)
-
+            await add_tasks(domain, _urls, TaskTags.FETCH_ENDPOINT)
     elif task.tag == TaskTags.FETCH_PAGE_SCRIPTS:
-        _urls = await domain.fetch_page_scripts(session, task.url)
+        _urls = await domain.fetch_page_scripts(task.url)
         if _urls:
-            await add_tasks(domain, _urls, TaskTags.FETCH_SCRIPT, session)
-
+            await add_tasks(domain, _urls, TaskTags.FETCH_SCRIPT)
     elif task.tag == TaskTags.FETCH_ENDPOINT:
-        await domain.fetch_endpoint(session, task.url)
-
+        await domain.fetch_endpoint(task.url)
     else:
         raise NotImplementedError()
+
+    # precision_mode: Release semaphore for the given domain.
+    if domain.semaphore:
+        domain.semaphore.release()
 
 
 async def consume_tasks(tasks: TasksList, domain: Domain) -> set[Url]:
     """Consume tasks."""
 
-    async with aiohttp.ClientSession() as session:
+    connector = aiohttp.TCPConnector(limit=100, ttl_dns_cache=600)
+    domain.session = aiohttp.ClientSession(connector=connector)
 
-        await asyncio.gather(*[process_task(task, session, domain) for task in tasks])
+    await asyncio.gather(*[process_task(task, domain) for task in tasks])
+
+    await domain.session.close()
 
     return domain.results

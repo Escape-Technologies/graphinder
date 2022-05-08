@@ -29,6 +29,7 @@ A Scan consistes of:
 - Running on a specific domain (`-d`, `--domain`) or a list of domains (`-f`, `--input-file`).
 - Searching all scripts loaded by the browser for graphql endpoint (`-s`, `--script`)
 - Brute forcing the directories of all discovered urls (`-b`, `--bruteforce`)
+- Using precision mode (`-p`, `--precision`)
 
 By default, bruteforce and script search are enabled.
 
@@ -44,6 +45,7 @@ graphinder -f domains.txt
 
 - `--no-bruteforce`: Disable bruteforce
 - `--no-script`: Disable script search
+- `-p --precision --no-precision`: Enable/disable precision mode (default: enabled) (precision mode is slower but more accurate)
 - `-f --input-file <FILE_PATH>`: Input domain names from file
 - `-w --max-workers <int>`: Maximum of concurrent workers on multiple domains.
 - `-o --output-file <FILE_PATH>`: Output the results to file

@@ -5,7 +5,6 @@
 import argparse
 import asyncio
 
-import aiohttp
 import pytest
 
 from graphinder.entities.tasks import Task, TasksList, TaskTags
@@ -77,28 +76,26 @@ def test_init_domain_tasks(domain: Domain) -> None:
 async def test_add_tasks() -> None:
     """add_tasks test."""
 
-    async with aiohttp.ClientSession() as session:
-        assert len(asyncio.all_tasks()) == 1, 'There should be 1 tasks.'
+    assert len(asyncio.all_tasks()) == 1, 'There should be 1 tasks.'
 
-        await add_tasks(Domain(Url('example.com')), {Url('http://example.com/')}, TaskTags.FETCH_PAGE_SCRIPTS, session)
+    await add_tasks(Domain(Url('example.com')), {Url('http://example.com/')}, TaskTags.FETCH_PAGE_SCRIPTS)
 
-        assert len(asyncio.all_tasks()) == 2, 'There should be 2 tasks.'
+    assert len(asyncio.all_tasks()) == 2, 'There should be 2 tasks.'
 
 
 @pytest.mark.asyncio
 async def test_process_task() -> None:
     """process_task test."""
 
-    async with aiohttp.ClientSession() as session:
-        assert len(asyncio.all_tasks()) == 1, 'There should be 1 tasks.'
+    assert len(asyncio.all_tasks()) == 1, 'There should be 1 tasks.'
 
-        try:
-            task = Task('example.com', 'unknown tag', 'example.com')  # type: ignore[arg-type]
-            await process_task(task, session, Domain('example.com'))
+    try:
+        task = Task('example.com', 'unknown tag', 'example.com')  # type: ignore[arg-type]
+        await process_task(task, Domain('example.com'))
 
-            assert False, 'Unknown tag should raise an error.'
-        except NotImplementedError:
-            pass
+        assert False, 'Unknown tag should raise an error.'
+    except NotImplementedError:
+        pass
 
 
 @pytest.mark.asyncio
