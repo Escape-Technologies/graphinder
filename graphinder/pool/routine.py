@@ -1,4 +1,5 @@
 """Functions to manage pooling."""
+
 import argparse
 import asyncio
 import concurrent
@@ -48,7 +49,7 @@ def main_routine(args: argparse.Namespace) -> None:
 
     logger.info('starting main routine..')
 
-    domains: list[Domain] = read_domains(args.input_file, args.domain)
+    domains: list[Domain] = read_domains(args.input_file, args.domain, args.precision_mode)
 
     logger.info(f'{len(domains)} domains loaded.')
 

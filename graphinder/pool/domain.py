@@ -1,8 +1,7 @@
 """Domain class."""
 
+import asyncio
 import os
-
-import aiohttp
 
 from graphinder.entities.pool import Url
 from graphinder.pool.detectors import is_gql_endpoint
@@ -15,12 +14,21 @@ class Domain:
 
     """Domain entity."""
 
-    def __init__(self, url: str) -> None:
+    semaphore: asyncio.Semaphore | None
+
+    def __init__(self, url: str, precision_mode: bool = False) -> None:
         """Init domain."""
 
         self.url = url
         self.logger = get_logger(self.url)
         self.subdomains: list[str] = []
+
+        self.session = None
+
+        if precision_mode:
+            self.semaphore = asyncio.Semaphore(100)
+        else:
+            self.semaphore = None
 
         self.results: set[Url] = set()
 
@@ -40,26 +48,26 @@ class Domain:
             self.logger.debug('reducing the number of subdomains.')
             self.subdomains = self.subdomains[:reduce]
 
-    async def fetch_script(self, session: aiohttp.ClientSession, url: str) -> set[Url]:
+    async def fetch_script(self, url: str) -> set[Url]:
         """Fetch script for endpoints."""
 
         self.logger.debug(f'fetching script {url}...')
 
-        return await extract_urls_from_script(session, url)
+        return await extract_urls_from_script(self.session, url)
 
-    async def fetch_page_scripts(self, session: aiohttp.ClientSession, url: str) -> set[Url]:
+    async def fetch_page_scripts(self, url: str) -> set[Url]:
         """Fetch page for scripts url."""
 
         self.logger.debug(f'fetching page scripts {url}...')
 
-        return await extract_script_urls_from_page(session, url)
+        return await extract_script_urls_from_page(self.session, url)
 
-    async def fetch_endpoint(self, session: aiohttp.ClientSession, url: str) -> None:
+    async def fetch_endpoint(self, url: str) -> None:
         """Fetch endpoint and determinate if this is a GQL endpoint."""
 
         self.logger.debug(f'fetching endpoint {url}...')
 
-        if await is_gql_endpoint(session, url):
+        if await is_gql_endpoint(self.session, url):
 
             self.logger.success(f'found GQL endpoint {url}.')
             self.results.add(Url(url))
