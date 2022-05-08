@@ -96,7 +96,8 @@ async def process_task(task: Task, domain: Domain) -> None:
 async def consume_tasks(tasks: TasksList, domain: Domain) -> set[Url]:
     """Consume tasks."""
 
-    domain.session = aiohttp.ClientSession()
+    connector = aiohttp.TCPConnector(limit=100, ttl_dns_cache=600)
+    domain.session = aiohttp.ClientSession(connector=connector)
 
     await asyncio.gather(*[process_task(task, domain) for task in tasks])
 
