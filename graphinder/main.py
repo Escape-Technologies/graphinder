@@ -52,9 +52,11 @@ def validate_arguments(logger: logging.Logger, args: argparse.Namespace) -> bool
     return True
 
 
-# pylint: disable=dangerous-default-value
-def main(argv: list[str] = sys.argv[1:]) -> bool:
+def main(argv: list[str] | None = None) -> bool:
     """Ignites arguments."""
+
+    if argv is None:
+        argv = sys.argv[1:]
 
     args: argparse.Namespace = argument_builder(argv)
 
