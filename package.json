@@ -1,7 +1,7 @@
 {
   "dependencies": {
-    "@commitlint/cli": "^16.1.0",
-    "@commitlint/config-angular": "^16.0.0",
-    "@escape.tech/mookme": "^1.2.0"
+    "@commitlint/cli": "^12.1.4",
+    "@commitlint/config-angular": "^12.1.4",
+    "@escape.tech/mookme": "^2.2.0-beta.2"
   }
 }
