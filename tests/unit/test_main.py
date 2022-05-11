@@ -2,7 +2,6 @@
 
 import argparse
 import importlib.metadata
-import sys
 from multiprocessing import cpu_count
 
 from graphinder import __version__
@@ -60,13 +59,11 @@ def test_validate_arguments() -> None:
 
 def test_main() -> None:
     """main test."""
-    sys.argv = ['graphinder']
-    assert main() is False
+
+    assert main([]) is False
 
 
 def test_full_run() -> None:
     """Test a complete run."""
 
-    sys.argv = ['graphinder', '-d', 'example.com']
-
-    assert main() is True
+    assert main(['-d', 'example.com']) is True
