@@ -5,6 +5,7 @@ import logging
 import sys
 from multiprocessing import cpu_count
 
+from graphinder.entities.io import Results
 from graphinder.pool import main_routine
 from graphinder.utils.assets import fetch_assets
 from graphinder.utils.logger import setup_logger
@@ -22,6 +23,7 @@ def argument_builder(args: list[str]) -> argparse.Namespace:
         '--script', '-s', dest='script_mode', type=bool, help='Check scripts assets to extract GraphQL calls', default=True,
         action=argparse.BooleanOptionalAction
     )
+    parser.add_argument('--quiet', '-q', dest='quiet_mode', type=bool, help='Quiet', default=False, action=argparse.BooleanOptionalAction)
     parser.add_argument(
         '--bruteforce', '-b', dest='bruteforce_mode', type=bool, help='Scan directory looking for GraphQL endpoints', default=True,
         action=argparse.BooleanOptionalAction
@@ -52,7 +54,7 @@ def validate_arguments(logger: logging.Logger, args: argparse.Namespace) -> bool
     return True
 
 
-def main(argv: list[str] | None = None) -> bool:
+def main(argv: list[str] | None = None) -> Results:
     """Ignites arguments."""
 
     if argv is None:
@@ -60,11 +62,10 @@ def main(argv: list[str] | None = None) -> bool:
 
     args: argparse.Namespace = argument_builder(argv)
 
-    logger = setup_logger(args.verbose_mode)
+    logger = setup_logger(args.verbose_mode, args.quiet_mode)
     if not validate_arguments(logger, args):
-        return False
+        return {}
 
     fetch_assets()
 
-    main_routine(args)
-    return True
+    return main_routine(args)

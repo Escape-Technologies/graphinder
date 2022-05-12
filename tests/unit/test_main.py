@@ -60,10 +60,10 @@ def test_validate_arguments() -> None:
 def test_main() -> None:
     """main test."""
 
-    assert main([]) is False
+    assert main([]) == {}
 
 
 def test_full_run() -> None:
     """Test a complete run."""
 
-    assert main(['-d', 'example.com']) is True
+    assert main(['-d', 'example.com']) == {'example.com': set()}

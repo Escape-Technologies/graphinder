@@ -1,6 +1,7 @@
 """Utilities functions that are needed but re-usable in any projects."""
 
 import logging
+import warnings
 from typing import Any
 
 
@@ -28,12 +29,16 @@ def disable_internal_loggers() -> None:
     """Disable internal loggers."""
 
     logging.getLogger('asyncio').setLevel(logging.ERROR)
+    warnings.simplefilter('ignore')
 
 
-def setup_logger(verbose_mode: bool) -> logging.Logger:
+def setup_logger(verbose_mode: bool = False, quiet_mode: bool = False) -> logging.Logger:
     """Setup logger."""
 
     log_level: int = logging.DEBUG if verbose_mode else logging.INFO
+    if quiet_mode:
+        log_level = logging.ERROR
+
     log_format: str = '%(asctime)s,%(msecs)04d - %(levelname)s - %(name)s - %(message)s'
 
     logging.basicConfig(level=log_level, datefmt='%H:%M:%S', format=log_format)

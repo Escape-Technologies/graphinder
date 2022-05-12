@@ -3,6 +3,7 @@
 import argparse
 import asyncio
 import concurrent
+from copy import deepcopy
 from multiprocessing import Manager
 from typing import cast
 
@@ -42,7 +43,7 @@ def process_pool(domains: list[Domain], args: argparse.Namespace, results: Resul
             logger.info(f'{domain} has been scanned completly.')
 
 
-def main_routine(args: argparse.Namespace) -> None:
+def main_routine(args: argparse.Namespace) -> Results:
     """Main pool routine."""
 
     logger = get_logger('pool')
@@ -59,6 +60,8 @@ def main_routine(args: argparse.Namespace) -> None:
     del args.input_file
     del args.output_file
 
+    exported_results: Results = {}
+
     with Manager() as manager:
 
         results: Results = manager.dict()
@@ -67,5 +70,10 @@ def main_routine(args: argparse.Namespace) -> None:
 
         process_pool(domains, args, results)
 
-        display_results(results)
+        if not args.quiet_mode:
+            display_results(results)
         write_results(output_file, results.copy())
+
+        exported_results = deepcopy(results)
+
+    return exported_results

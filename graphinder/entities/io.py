@@ -1,7 +1,5 @@
 """Entities for `io` module."""
 
-from typing import Dict
+from graphinder.entities.pool import Url
 
-from graphinder.pool.domain import Url
-
-Results = Dict[str, set[Url]]
+Results = dict[str, set[Url]]
