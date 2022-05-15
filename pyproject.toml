@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "graphinder"
-version = "1.1.4"
+version = "1.1.5"
 description = "Escape Graphinder"
 authors = ["Escape Technologies SAS <ping@escape.tech>"]
 maintainers = [
@@ -14,7 +14,6 @@ packages = [
 ]
 include = [
     "LICENSE",
-    "py.typed"
 ]
 readme = "README.md"
 "homepage" = "https://escape.tech/"
