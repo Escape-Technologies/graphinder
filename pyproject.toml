@@ -14,6 +14,7 @@ packages = [
 ]
 include = [
     "LICENSE",
+    "py.typed"
 ]
 readme = "README.md"
 "homepage" = "https://escape.tech/"
