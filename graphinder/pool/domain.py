@@ -70,5 +70,11 @@ class Domain:
 
         if await is_gql_endpoint(self.session, url):
 
-            self.logger.success(f'found GQL endpoint {url}.')
+            # If for some reason we can't use `success` member of the custom logger.
+            _attr = getattr(self.logger, 'success', None)
+            if callable(_attr):
+                self.logger.success(f'found GQL endpoint {url}.')
+            else:
+                self.logger.info(f'found GQL endpoint {url}.')
+
             self.results.add(Url(url))
