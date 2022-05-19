@@ -49,7 +49,7 @@ def test_filter_urls() -> None:
     for url in gql_endpoints_characterizer():
         _input.add(Url('https://example.com/' + url))
 
-    assert filter_urls(_input) == {Url('https://example.com/graph')}
+    assert filter_urls(_input) == {Url('https://example.com/graphql')}
 
 
 def test_remove_duplicate_domains() -> None:

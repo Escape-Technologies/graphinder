@@ -63,10 +63,22 @@ def filter_urls(urls: set[Url]) -> set[Url]:
 
                 break
 
-    # Reconstruct the list of endpoints using the smaller one.
+    # Reconstruct the list of endpoints.
+    # Attempt to find a full /graphql path.
+    # Otherwise, use the smaller one.
     filtered_urls: set[Url] = set()
     for _urls in unpacked_urls.values():
-        filtered_urls.add(min(_urls, key=len))
+
+        default_match: bool = False
+        for _url in _urls:
+            if _url.endswith('/graphql'):
+                filtered_urls.add(_url)
+                default_match = True
+
+                break
+
+        if not default_match:
+            filtered_urls.add(min(_urls, key=len))
 
     return filtered_urls
 
