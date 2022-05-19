@@ -1,5 +1,6 @@
 """All functions for detection."""
 
+import re
 from json import JSONDecodeError
 
 import aiohttp
@@ -29,7 +30,7 @@ async def looks_like_graphql_url(session: aiohttp.ClientSession, url: str) -> bo
                 return True
 
             if gql_response.get('message') and is_gql_characterizer(url):
-                if '404' not in text and 'not found' not in text.lower():
+                if '404' not in text and not re.search(r'not.found', text, re.IGNORECASE):
                     return True
 
             return False
