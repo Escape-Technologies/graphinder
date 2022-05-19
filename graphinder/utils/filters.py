@@ -111,4 +111,7 @@ def transform_url_in_domain(url: str) -> str:
     if url.startswith('www.'):
         url = url.lstrip('www.')
 
+    if url.endswith('/'):
+        url = url.rstrip('/')
+
     return url
