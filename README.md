@@ -51,6 +51,7 @@ graphinder -f domains.txt
 - `-o --output-file <FILE_PATH>`: Output the results to file
 - `-v --verbose --no-verbose`: Verbose mode
 - `-r --reduce`: The maximum number of subdomains to scan.
+- `-wb --webhook_url`: The discord webhook url to send the results to.
 
 If you experience any issues, irregularities or networking bottlenecks, please reduce your number of workers, otherwise, better is your network, the more workers you can have.
 
