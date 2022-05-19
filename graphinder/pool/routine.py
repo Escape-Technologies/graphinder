@@ -16,6 +16,7 @@ from graphinder.pool.domain import Domain, Url
 from graphinder.pool.tasks import consume_tasks, init_domain_tasks
 from graphinder.utils.filters import filter_urls
 from graphinder.utils.logger import get_logger
+from graphinder.utils.webhook import send_webhook
 
 
 def domain_routine(domain: Domain, args: argparse.Namespace) -> dict[str, str | set[Url]]:
@@ -72,7 +73,12 @@ def main_routine(args: argparse.Namespace) -> Results:
 
         if not args.quiet_mode:
             display_results(results)
-        write_results(output_file, results.copy())
+
+        if output_file is not None:
+            write_results(output_file, results.copy())
+
+        if args.webhook_url is not None:
+            send_webhook(args.webhook_url, results)
 
         exported_results = deepcopy(results)
 

@@ -8,14 +8,6 @@ from graphinder.entities.pool import Url
 from graphinder.io.writers import ResultEncoder, write_results
 
 
-def test_write_results_no_input() -> None:
-    """write_results test with no input."""
-
-    results: Results = {}
-
-    write_results(None, results)
-
-
 def test_result_encoder() -> None:
     """ResultEncoder test with wrong structure."""
 
