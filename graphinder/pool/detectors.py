@@ -29,7 +29,8 @@ async def looks_like_graphql_url(session: aiohttp.ClientSession, url: str) -> bo
                 return True
 
             if gql_response.get('message') and is_gql_characterizer(url):
-                return True
+                if '404' not in text and 'not found' not in text.lower():
+                    return True
 
             return False
 
