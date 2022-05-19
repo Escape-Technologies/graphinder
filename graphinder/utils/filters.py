@@ -67,11 +67,11 @@ def filter_urls(urls: set[Url]) -> set[Url]:
     # Attempt to find a full /graphql path.
     # Otherwise, use the smaller one.
     filtered_urls: set[Url] = set()
-    for _urls in unpacked_urls.values():
+    for base_url, _urls in unpacked_urls.items():
 
         default_match: bool = False
         for _url in _urls:
-            if _url.endswith('/graphql'):
+            if _url[len(base_url):] == 'graphql':
                 filtered_urls.add(_url)
                 default_match = True
 
