@@ -1,5 +1,6 @@
 """Discord webhook utils."""
 
+import random
 from typing import Any
 
 import requests
@@ -11,7 +12,6 @@ def format_webhook(results: Results) -> dict:
     """Format embeds for webhook."""
 
     base: dict[str, Any] = {
-        'content': None,
         'username': 'Graphinder',
         'embeds': [],
     }
@@ -20,7 +20,7 @@ def format_webhook(results: Results) -> dict:
         base['embeds'].append({
             'title': domain,
             'description': '\n'.join(urls),
-            'color': '#ffffff',
+            'color': random.randint(0, 16777215),
         })
 
     return base
@@ -32,7 +32,5 @@ def send_webhook(webhook_url: str, results: Results) -> bool:
     body = format_webhook(results)
 
     r = requests.post(url=webhook_url, json=body)
-    print(r.status_code)
-    print(r.text)
 
-    return r.status_code == 200
+    return r.status_code == 204
