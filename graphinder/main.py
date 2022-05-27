@@ -16,7 +16,16 @@ def argument_builder(args: list[str]) -> argparse.Namespace:
 
     parser = argparse.ArgumentParser()
     parser.add_argument('--domain', '-d', dest='domain', type=str, help='Domain to scan')
-    parser.add_argument('--input-file', '-f', dest='input_file', type=argparse.FileType('r'), help='The path to the text file of domains to scan')
+    parser.add_argument('--input-file', '-f', dest='input_file', type=argparse.FileType('r+'), help='The path to the text file of domains to scan')
+    parser.add_argument(
+        '--inplace',
+        '-i',
+        dest='inplace',
+        type=bool,
+        help='Write the results in the same file as the input file, comma separated (CSV)',
+        default=False,
+        action=argparse.BooleanOptionalAction,
+    )
     parser.add_argument('--output-file', '-o', dest='output_file', type=argparse.FileType('w'), help='The path of the results file', default='results.json')
     parser.add_argument('--verbose', '-v', dest='verbose_mode', type=bool, help='Verbose', default=False, action=argparse.BooleanOptionalAction)
     parser.add_argument(
@@ -43,6 +52,10 @@ def validate_arguments(logger: logging.Logger, args: argparse.Namespace) -> bool
     """Validates the arguments."""
 
     if args.domain and args.input_file:
+        return False
+
+    if args.inplace and not args.input_file:
+        logger.error('--inplace requires and --input-file')
         return False
 
     if not args.domain and not args.input_file:
