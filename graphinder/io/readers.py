@@ -22,4 +22,6 @@ def read_domains(file: TextIOWrapper | None, domain: str | None, precision_mode:
 
     get_logger('io').success(f'found { len(domains) } domains.')
 
+    get_logger('io').success(domains)
+
     return domains

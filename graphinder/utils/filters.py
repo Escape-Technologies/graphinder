@@ -1,5 +1,8 @@
 """All filters functions."""
 
+import re
+from urllib.parse import urlparse
+
 from graphinder.entities.pool import Url
 from graphinder.io.providers import gql_endpoints_characterizer
 
@@ -103,15 +106,12 @@ def transform_url_in_domain(url: str) -> str:
     http(s)://(www.)
     """
 
-    if url.startswith('http://'):
-        url = url.lstrip('http://')
-    elif url.startswith('https://'):
-        url = url.lstrip('https://')
+    if 'https://' in url or 'http://' in url:
+        url = re.search(r'(?P<url>https?://[^\s]+)', url).group('url')
+
+    url = urlparse(url).netloc
 
     if url.startswith('www.'):
         url = url.lstrip('www.')
-
-    if url.endswith('/'):
-        url = url.rstrip('/')
 
     return url

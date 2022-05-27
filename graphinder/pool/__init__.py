@@ -1,3 +1,3 @@
 """Pool init."""
 
-from graphinder.pool.routine import main_routine
+from graphinder.pool.routine import main_routine  # noqa
