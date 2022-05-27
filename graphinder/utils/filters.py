@@ -1,10 +1,10 @@
 """All filters functions."""
 
 import re
-from urllib.parse import urlparse
 
 from graphinder.entities.pool import Url
 from graphinder.io.providers import gql_endpoints_characterizer
+from graphinder.utils.logger import get_logger
 
 
 def filter_common(urls: set[str]) -> set[str]:
@@ -100,18 +100,18 @@ def remove_duplicate_domains(domains: list[str]) -> list[str]:
     return corrected_domains
 
 
-def transform_url_in_domain(url: str) -> str:
+def transform_url_in_domain(url: str) -> str | None:
     """Transform a given url in domain.
 
     http(s)://(www.)
     """
 
-    if 'https://' in url or 'http://' in url:
-        url = re.search(r'(?P<url>https?://[^\s]+)', url).group('url')
+    if 'https://' in url or 'http://' in url:  # here the url can even ben contained in a string it will still work (e.g. csv)
+        if (search := re.search(r'(?:https?://(?:www.)?(?P<url>[^\s/]+)/?)', url)) is not None:
+            return search.group('url')
 
-    url = urlparse(url).netloc
+        get_logger('io').critical(f'{ url } does not contain any valid domain')
+        return None
 
-    if url.startswith('www.'):
-        url = url.lstrip('www.')
-
-    return url
+    # here the url is already a domain name
+    return url.replace('www.', '').split('/')[0]

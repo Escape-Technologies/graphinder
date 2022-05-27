@@ -31,7 +31,6 @@ def test_read_domains_input_file() -> None:
     with open('tests/unit/io/test_readers.txt', 'r', encoding='utf-8') as input_file:
         out: list[Domain] = read_domains(input_file, None)  # type: ignore[arg-type]
 
-    assert len(out) == 2
+    str_out = set(domain.url for domain in out)
 
-    assert 'example.com' in [domain.url for domain in out]
-    assert 'example.org' in [domain.url for domain in out]
+    assert {'example.com', 'example.org', 'example.fr'} == str_out

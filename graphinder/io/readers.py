@@ -11,17 +11,20 @@ def read_domains(file: TextIOWrapper | None, domain: str | None, precision_mode:
     """Read domains from file."""
 
     if domain is not None:
-        return [Domain(transform_url_in_domain(domain), precision_mode)]
+        if (clean := transform_url_in_domain(domain)) is not None:
+            return [Domain(clean, precision_mode)]
+        return []
 
     if file is None:
         get_logger('io').critical('no input file specified, skipping reading domains..')
         return []
 
     urls: list[str] = list(set(file.read().splitlines()))
-    domains: list[Domain] = [Domain(transform_url_in_domain(url), precision_mode) for url in urls]
+    domains: list[Domain] = []
+    for url in urls:
+        if (clean := transform_url_in_domain(url)) is not None:
+            domains.append(Domain(clean, precision_mode))
 
     get_logger('io').success(f'found { len(domains) } domains.')
-
-    get_logger('io').success(domains)
 
     return domains
