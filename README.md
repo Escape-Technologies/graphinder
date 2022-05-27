@@ -22,6 +22,12 @@ docker cp graphinder:/graphinder/results.json results.json
 docker rm -f graphinder
 ```
 
+Or if you want to pass a file containing domain names (one per line):
+
+```bash
+docker run -v /full/path/to/file.csv:/graphinder/file.csv -it --rm escapetech/graphinder --inplace -f /graphinder/file.csv
+```
+
 ## Usage
 
 A Scan consistes of:
