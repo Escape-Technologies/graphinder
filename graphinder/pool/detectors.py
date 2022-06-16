@@ -11,6 +11,9 @@ from graphinder.io.providers import gql_endpoints_characterizer
 def is_gql_characterizer(url: str) -> bool:
     """Check if the url is characterized as GQL endpoint."""
 
+    if re.search(r'/v\d/', url):
+        return False
+
     return any(x in url for x in gql_endpoints_characterizer())
 
 
