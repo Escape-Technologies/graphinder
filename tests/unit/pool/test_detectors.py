@@ -3,14 +3,14 @@
 import aiohttp
 import pytest
 
-from graphinder.pool.detectors import is_gql_characterizer, is_gql_endpoint, looks_like_graphql_url
+from graphinder.pool.detectors import _look_like_graphql_url, is_gql_endpoint, looks_like_graphql_url
 
 
-def test_is_gql_characterizer() -> None:
-    """is_gql_characterizer test."""
+def test_look_like_graphql_url() -> None:
+    """_look_like_graphql_url test."""
 
-    assert not is_gql_characterizer('https://example.com')
-    assert is_gql_characterizer('https://example.com/graphql')
+    assert _look_like_graphql_url('https://example.com') == (False, None)
+    assert _look_like_graphql_url('https://example.com/graphql') == (True, 'graphql')
 
 
 @pytest.mark.asyncio
