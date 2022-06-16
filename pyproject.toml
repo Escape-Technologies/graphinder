@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "graphinder"
-version = "1.4.2"
+version = "1.4.3"
 description = "Escape Graphinder"
 authors = ["Escape Technologies SAS <ping@escape.tech>"]
 maintainers = [
@@ -36,7 +36,7 @@ asyncio_mode = 'strict'
 
 [tool.poetry.dependencies]
 python = ">=3.10,<3.11"
-bs4 = "^0.0.1"
+beautifulsoup4 = ">=4,<5"
 aiohttp = "^3.8.1"
 cchardet = "^2.1.7"
 requests = "^2.27.1"
