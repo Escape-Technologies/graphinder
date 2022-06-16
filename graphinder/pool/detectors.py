@@ -13,10 +13,6 @@ PAYLOAD: dict[str, str] = {'query': 'query {  __typename }'}
 def _look_like_graphql_url(url: str) -> tuple[bool, str | None]:
     """Check if the url looks like a GraphQL endpoint."""
 
-    # Using the version number in the URL is characteristic of REST.
-    if match := re.search(r'/v\d/', url):
-        return False, match.string
-
     for part in gql_endpoints_characterizer():
         if part in url:
             return True, part
