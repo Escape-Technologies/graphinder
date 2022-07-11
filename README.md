@@ -90,6 +90,6 @@ Pull requests are welcome. For major changes, please open an issue first to disc
 
 Please make sure to update tests as appropriate.
 
-## License
+## License ![PyPI - License](https://img.shields.io/pypi/l/graphinder)
 
 [MIT](https://choosealicense.com/licenses/mit/)
