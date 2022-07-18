@@ -19,7 +19,10 @@ from graphinder.utils.logger import get_logger
 from graphinder.utils.webhook import send_webhook
 
 
-def domain_routine(domain: Domain, args: argparse.Namespace) -> dict[str, str | set[Url]]:
+def domain_routine(
+    domain: Domain,
+    args: argparse.Namespace,
+) -> dict[str, str | set[Url]]:
     """Start domain routine."""
 
     _tasks: TasksList = init_domain_tasks(domain, args)
@@ -28,7 +31,11 @@ def domain_routine(domain: Domain, args: argparse.Namespace) -> dict[str, str | 
     return {'domain': domain.url, 'urls': filter_urls(_urls)}
 
 
-def process_pool(domains: list[Domain], args: argparse.Namespace, results: Results) -> None:
+def process_pool(
+    domains: list[Domain],
+    args: argparse.Namespace,
+    results: Results,
+) -> None:
     """Manage graphinder pooling."""
 
     logger = get_logger('pool')
@@ -48,11 +55,9 @@ def main_routine(args: argparse.Namespace) -> Results:
     """Main pool routine."""
 
     logger = get_logger('pool')
-
     logger.info('starting main routine..')
 
     domains: list[Domain] = read_domains(args.input_file, args.domain, args.precision_mode)
-
     logger.info(f'{len(domains)} domains loaded.')
 
     args.max_workers = min(args.max_workers, len(domains))

@@ -26,7 +26,10 @@ def format_webhook(results: Results) -> dict:
     return base
 
 
-def send_webhook(webhook_url: str, results: Results) -> bool:
+def send_webhook(
+    webhook_url: str,
+    results: Results,
+) -> bool:
     """Send discord webhook."""
 
     body = format_webhook(results)

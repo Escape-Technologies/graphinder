@@ -7,7 +7,11 @@ from graphinder.utils.filters import transform_url_in_domain
 from graphinder.utils.logger import get_logger
 
 
-def read_domains(file: TextIOWrapper | None, domain: str | None, precision_mode: bool = False) -> list[Domain]:
+def read_domains(
+    file: TextIOWrapper | None,
+    domain: str | None,
+    precision_mode: bool = False,
+) -> list[Domain]:
     """Read domains from file."""
 
     if domain is not None:

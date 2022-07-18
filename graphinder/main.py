@@ -48,7 +48,10 @@ def argument_builder(args: list[str]) -> argparse.Namespace:
     return parser.parse_args(args)
 
 
-def validate_arguments(logger: logging.Logger, args: argparse.Namespace) -> bool:
+def validate_arguments(
+    logger: logging.Logger,
+    args: argparse.Namespace,
+) -> bool:
     """Validates the arguments."""
 
     if args.domain and args.input_file:

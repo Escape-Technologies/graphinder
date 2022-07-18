@@ -38,7 +38,10 @@ def generate_bruteforce_tasks(domain: Domain) -> TasksList:
     return tasks
 
 
-def generate_tasks(domain: Domain, args: argparse.Namespace) -> TasksList:
+def generate_tasks(
+    domain: Domain,
+    args: argparse.Namespace,
+) -> TasksList:
     """Generate tasks depending on settings."""
 
     tasks: TasksList = []
@@ -53,7 +56,10 @@ def generate_tasks(domain: Domain, args: argparse.Namespace) -> TasksList:
     return tasks
 
 
-def init_domain_tasks(domain: Domain, args: argparse.Namespace) -> TasksList:
+def init_domain_tasks(
+    domain: Domain,
+    args: argparse.Namespace,
+) -> TasksList:
     """Init domain tasks."""
 
     domain.fetch_subdomains(args.reduce_mode)
@@ -67,7 +73,10 @@ async def add_tasks(domain: Domain, urls: set[Url], tag: TaskTags) -> None:
         asyncio.create_task(process_task(Task(domain.url, tag, url), domain))
 
 
-async def process_task(task: Task, domain: Domain) -> None:
+async def process_task(
+    task: Task,
+    domain: Domain,
+) -> None:
     """Process task."""
 
     # precision_mode: Lock the task semaphore for the given domain.
@@ -93,7 +102,10 @@ async def process_task(task: Task, domain: Domain) -> None:
         domain.semaphore.release()
 
 
-async def consume_tasks(tasks: TasksList, domain: Domain) -> set[Url]:
+async def consume_tasks(
+    tasks: TasksList,
+    domain: Domain,
+) -> set[Url]:
     """Consume tasks."""
 
     connector = aiohttp.TCPConnector(limit=100, ttl_dns_cache=600)

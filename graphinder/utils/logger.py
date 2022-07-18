@@ -32,7 +32,10 @@ def disable_internal_loggers() -> None:
     warnings.simplefilter('ignore')
 
 
-def setup_logger(verbose_mode: bool = False, quiet_mode: bool = False) -> logging.Logger:
+def setup_logger(
+    verbose_mode: bool = False,
+    quiet_mode: bool = False,
+) -> logging.Logger:
     """Setup logger."""
 
     log_level: int = logging.DEBUG if verbose_mode else logging.INFO

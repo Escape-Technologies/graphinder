@@ -18,7 +18,12 @@ class Task:
 
     """Task representation."""
 
-    def __init__(self, domain_url: str, tag: TaskTags, url: str) -> None:
+    def __init__(
+        self,
+        domain_url: str,
+        tag: TaskTags,
+        url: str,
+    ) -> None:
         """Init task."""
 
         self.domain_url = domain_url

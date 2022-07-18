@@ -8,7 +8,10 @@ import zipfile
 from graphinder.utils.logger import get_logger
 
 
-def _compose_subfinder_url(_os: str = platform.system().lower(), _processor: str = platform.processor()) -> str:
+def _compose_subfinder_url(
+    _os: str = platform.system().lower(),
+    _processor: str = platform.processor(),
+) -> str:
     """Compose the subfinder url."""
 
     base_url: str = 'https://github.com/projectdiscovery/subfinder/releases/download/v2.5.1/subfinder_2.5.1_'

@@ -11,7 +11,10 @@ from graphinder.utils.filters import filter_common
 from graphinder.utils.finders import find_script_fetch_graphql, find_script_full_urls, find_script_window_base_urls
 
 
-def extract_scripts_from_html(url: str, html: str) -> list[str]:
+def extract_scripts_from_html(
+    url: str,
+    html: str,
+) -> list[str]:
     """Get any scripts files from html page."""
 
     soup = bs4(html, 'html.parser')
@@ -28,7 +31,10 @@ def extract_scripts_from_html(url: str, html: str) -> list[str]:
     return scripts_files
 
 
-async def extract_script_urls_from_page(session: aiohttp.ClientSession, url: str) -> set[Url]:
+async def extract_script_urls_from_page(
+    session: aiohttp.ClientSession,
+    url: str,
+) -> set[Url]:
     """This extractor will check all scripts on the page for GQL endpoints."""
 
     urls: set[Url] = set()
@@ -50,7 +56,10 @@ async def extract_script_urls_from_page(session: aiohttp.ClientSession, url: str
     return urls
 
 
-def extract_scripts_from_raw_js(url: str, script_file: str) -> set[str]:
+def extract_scripts_from_raw_js(
+    url: str,
+    script_file: str,
+) -> set[str]:
     """Extract all urls from a script file by using combination of regex."""
 
     urls: list[str] = find_script_full_urls(script_file) + find_script_window_base_urls(url, script_file) + find_script_fetch_graphql(url, script_file)
@@ -58,7 +67,10 @@ def extract_scripts_from_raw_js(url: str, script_file: str) -> set[str]:
     return filter_common(set(urls))
 
 
-async def extract_urls_from_script(session: aiohttp.ClientSession, url: str) -> set[Url]:
+async def extract_urls_from_script(
+    session: aiohttp.ClientSession,
+    url: str,
+) -> set[Url]:
     """Extract urls from scripts."""
 
     potentials_gqls: set[Url] = set()

@@ -19,7 +19,11 @@ class Domain:
     semaphore: asyncio.Semaphore | None
     session: aiohttp.ClientSession
 
-    def __init__(self, url: str, precision_mode: bool = False) -> None:
+    def __init__(
+        self,
+        url: str,
+        precision_mode: bool = False,
+    ) -> None:
         """Init domain."""
 
         self.url = url
@@ -33,7 +37,10 @@ class Domain:
 
         self.results: set[Url] = set()
 
-    def fetch_subdomains(self, reduce: int = 100) -> None:
+    def fetch_subdomains(
+        self,
+        reduce: int = 100,
+    ) -> None:
         """Fetch subdomains."""
 
         self.logger.info('fetching subdomains...')
@@ -49,21 +56,30 @@ class Domain:
             self.logger.debug('reducing the number of subdomains.')
             self.subdomains = self.subdomains[:reduce]
 
-    async def fetch_script(self, url: str) -> set[Url]:
+    async def fetch_script(
+        self,
+        url: str,
+    ) -> set[Url]:
         """Fetch script for endpoints."""
 
         self.logger.debug(f'fetching script {url}...')
 
         return await extract_urls_from_script(self.session, url)
 
-    async def fetch_page_scripts(self, url: str) -> set[Url]:
+    async def fetch_page_scripts(
+        self,
+        url: str,
+    ) -> set[Url]:
         """Fetch page for scripts url."""
 
         self.logger.debug(f'fetching page scripts {url}...')
 
         return await extract_script_urls_from_page(self.session, url)
 
-    async def fetch_endpoint(self, url: str) -> None:
+    async def fetch_endpoint(
+        self,
+        url: str,
+    ) -> None:
         """Fetch endpoint and determinate if this is a GQL endpoint."""
 
         self.logger.debug(f'fetching endpoint {url}...')

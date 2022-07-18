@@ -20,7 +20,11 @@ def _look_like_graphql_url(url: str) -> tuple[bool, str | None]:
     return False, None
 
 
-async def _looks_different_than_closest_route(session: aiohttp.ClientSession, url: str, original_body: str) -> bool:
+async def _looks_different_than_closest_route(
+    session: aiohttp.ClientSession,
+    url: str,
+    original_body: str,
+) -> bool:
     """Check if a close route to the same endpoint is different than the original one."""
 
     look_likes, characterizer = _look_like_graphql_url(url)
@@ -36,7 +40,10 @@ async def _looks_different_than_closest_route(session: aiohttp.ClientSession, ur
     return False
 
 
-async def looks_like_graphql_url(session: aiohttp.ClientSession, url: str) -> bool:
+async def looks_like_graphql_url(
+    session: aiohttp.ClientSession,
+    url: str,
+) -> bool:
     """Check if the supplies url looks like a graphql endpoint."""
 
     text_body = None
@@ -63,7 +70,10 @@ async def looks_like_graphql_url(session: aiohttp.ClientSession, url: str) -> bo
         return False
 
 
-async def is_gql_endpoint(session: aiohttp.ClientSession, url: str) -> bool:
+async def is_gql_endpoint(
+    session: aiohttp.ClientSession,
+    url: str,
+) -> bool:
     """Check if the supplies url is a GQL endpoint."""
 
     try:

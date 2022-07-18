@@ -20,7 +20,10 @@ class ResultEncoder(json.JSONEncoder):
         raise NotImplementedError()
 
 
-def write_results(output_file: TextIOWrapper, results: Results) -> None:
+def write_results(
+    output_file: TextIOWrapper,
+    results: Results,
+) -> None:
     """Saves the results."""
 
     json.dump(
@@ -32,7 +35,10 @@ def write_results(output_file: TextIOWrapper, results: Results) -> None:
     )
 
 
-def write_results_inplace(input_file: TextIOWrapper, results: Results) -> None:
+def write_results_inplace(
+    input_file: TextIOWrapper,
+    results: Results,
+) -> None:
     """Write the result comma separated (as a CSV) into the input file."""
 
     input_file.seek(0)
