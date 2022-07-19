@@ -25,6 +25,8 @@ def gql_endpoints_characterizer() -> list[str]:
         'graphql/schema.json',
         'graphql/schema.xml',
         'graphql/schema.yaml',
+        'graphql/v1',
+        'graphql/v2',
         'api/graphql',
         'v1/altair',
         'v1/explorer',
