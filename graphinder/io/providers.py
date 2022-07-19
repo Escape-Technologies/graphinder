@@ -6,7 +6,6 @@ def gql_endpoints_characterizer() -> list[str]:
 
     return [
         'graphql',
-        'api/graphql',
         'appsync',
         'altair',
         'explorer',
