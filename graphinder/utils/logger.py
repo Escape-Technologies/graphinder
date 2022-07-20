@@ -18,6 +18,8 @@ def setup_logger(
 ) -> logging.Logger:
     """Setup logger."""
 
+    disable_internal_loggers()
+
     log_level: int = logging.DEBUG if verbose_mode else logging.INFO
     if quiet_mode:
         log_level = logging.ERROR
@@ -35,8 +37,6 @@ def setup_logger(
     logging.addLevelName(logging.INFO, '\x1b[37;1mINF\x1b[0m')
     logging.addLevelName(logging.WARNING, '\x1b[33;1mWRN\x1b[0m')
     logging.addLevelName(logging.ERROR, '\x1b[31;1mERR\x1b[0m')
-
-    disable_internal_loggers()
 
     return get_logger()
 
