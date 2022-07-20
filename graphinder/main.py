@@ -1,14 +1,18 @@
 """The CLI."""
 
 import argparse
+import importlib.metadata
 import logging
 import sys
+from datetime import date
 from multiprocessing import cpu_count
 
 from graphinder.entities.io import Results
 from graphinder.pool import main_routine
 from graphinder.utils.assets import fetch_assets
 from graphinder.utils.logger import setup_logger
+
+__version__ = importlib.metadata.version(__package__ or __name__)
 
 
 def argument_builder(args: list[str]) -> argparse.Namespace:
@@ -72,7 +76,37 @@ def validate_arguments(
     return True
 
 
-def main(argv: list[str] | None = None) -> Results:
+# pylint: disable=trailing-whitespace
+def cli() -> None:
+    """Entry point of the CLI program."""
+
+    print(
+        r"""
+        ____                 _     _           _           
+    / ___|_ __ __ _ _ __ | |__ (_)_ __   __| | ___ _ __ 
+    | |  _| '__/ _` | '_ \| '_ \| | '_ \ / _` |/ _ \ '__|
+    | |_| | | | (_| | |_) | | | | | | | | (_| |  __/ |   
+    \____|_|  \__,_| .__/|_| |_|_|_| |_|\__,_|\___|_|   
+                    |_|                                  
+
+    """
+    )
+
+    print('    Maintainer   https://escape.tech')
+    print('    Blog         https://blog.escape.tech')
+    print('    DockerHub    https://hub.docker.com/r/escapetech/graphinder')
+    print('    Contribute   https://github.com/Escape-Technologies/graphinder')
+    print('')
+    print(f'   (c) 2021 - { date.today().year } Escape Technologies - Version: {__version__}')
+    print('\n' * 2)
+
+    main()
+
+
+def main(
+    argv: list[str] | None = None,
+    logger: logging.Logger | None = None,
+) -> Results:
     """Ignites arguments."""
 
     if argv is None:
@@ -80,7 +114,11 @@ def main(argv: list[str] | None = None) -> Results:
 
     args: argparse.Namespace = argument_builder(argv)
 
-    logger = setup_logger(args.verbose_mode, args.quiet_mode)
+    logger = setup_logger(
+        verbose_mode=args.verbose_mode,
+        quiet_mode=args.quiet_mode,
+        logger=logger,
+    )
     if not validate_arguments(logger, args):
         return {}
 

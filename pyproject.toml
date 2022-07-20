@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "graphinder"
-version = "1.6.1"
+version = "1.7.0"
 description = "Escape Graphinder"
 authors = ["Escape Technologies SAS <ping@escape.tech>"]
 maintainers = [
@@ -23,7 +23,7 @@ readme = "README.md"
 "Bug Tracker" = "https://github.com/Escape-Technologies/graphinder/issues"
 
 [tool.poetry.scripts]
-graphinder = 'graphinder:main'
+graphinder = 'graphinder:cli'
 
 [tool.coverage.run]
 omit = [
