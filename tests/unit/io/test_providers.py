@@ -8,4 +8,5 @@ def test_gql_endpoints_characterizer() -> None:
 
     endpoints = gql_endpoints_characterizer()
 
-    assert len(endpoints) == 61, 'There should be 61 endpoints. Please update the test if you added more.'
+    assert len(endpoints) == len(set(endpoints)), 'There should be no duplicates.'
+    assert len(endpoints) == 23 * 3, 'There should be 61 endpoints. Please update the test if you added more.'
