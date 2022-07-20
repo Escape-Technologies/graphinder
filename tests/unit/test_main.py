@@ -4,8 +4,7 @@ import argparse
 import importlib.metadata
 from multiprocessing import cpu_count
 
-from graphinder import __version__
-from graphinder.main import argument_builder, main, validate_arguments
+from graphinder.main import __version__, argument_builder, main, validate_arguments
 from graphinder.utils.logger import get_logger
 
 
@@ -39,7 +38,7 @@ def test_argument_builder() -> None:
 def test_validate_arguments() -> None:
     """validate_arguments test."""
 
-    logger = get_logger('test_validate_arguments')
+    logger = get_logger()
     args: argparse.Namespace = argument_builder([])
 
     assert not validate_arguments(logger, args)

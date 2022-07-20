@@ -27,7 +27,7 @@ class Domain:
         """Init domain."""
 
         self.url = url
-        self.logger = get_logger(self.url)
+        self.logger = get_logger()
         self.subdomains: list[str] = []
 
         if precision_mode:
@@ -50,7 +50,7 @@ class Domain:
         self.subdomains = _finder.read().split('\n')
 
         self.subdomains = remove_duplicate_domains(self.subdomains)
-        self.logger.info(f'found { len(self.subdomains) } subdomains.')
+        self.logger.info(f'{self.url} - found { len(self.subdomains) } subdomains.')
 
         if len(self.subdomains) > reduce:
             self.logger.debug('reducing the number of subdomains.')
@@ -85,12 +85,5 @@ class Domain:
         self.logger.debug(f'fetching endpoint {url}...')
 
         if await is_gql_endpoint(self.session, url):
-
-            # If for some reason we can't use `success` member of the custom logger.
-            _attr = getattr(self.logger, 'success', None)
-            if callable(_attr):
-                self.logger.success(f'found GQL endpoint {url}.')
-            else:
-                self.logger.info(f'found GQL endpoint {url}.')
-
+            self.logger.info(f'found GQL endpoint {url}.')
             self.results.add(Url(url))

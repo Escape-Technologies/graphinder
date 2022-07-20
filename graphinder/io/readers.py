@@ -20,7 +20,7 @@ def read_domains(
         return []
 
     if file is None:
-        get_logger('io').critical('no input file specified, skipping reading domains..')
+        get_logger().warning('no input file specified, skipping reading domains..')
         return []
 
     urls: list[str] = list(set(file.read().splitlines()))
@@ -29,6 +29,6 @@ def read_domains(
         if (clean := transform_url_in_domain(url)) is not None:
             domains.append(Domain(clean, precision_mode))
 
-    get_logger('io').success(f'found { len(domains) } domains.')
+    get_logger().info(f'found { len(domains) } domains.')
 
     return domains

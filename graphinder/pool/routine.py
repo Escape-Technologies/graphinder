@@ -38,7 +38,7 @@ def process_pool(
 ) -> None:
     """Manage graphinder pooling."""
 
-    logger = get_logger('pool')
+    logger = get_logger()
 
     with concurrent.futures.ProcessPoolExecutor(max_workers=args.max_workers) as pool:
         promises = (pool.submit(domain_routine, domain, args) for domain in domains)
@@ -54,7 +54,7 @@ def process_pool(
 def main_routine(args: argparse.Namespace) -> Results:
     """Main pool routine."""
 
-    logger = get_logger('pool')
+    logger = get_logger()
     logger.info('starting main routine..')
 
     domains: list[Domain] = read_domains(args.input_file, args.domain, args.precision_mode)

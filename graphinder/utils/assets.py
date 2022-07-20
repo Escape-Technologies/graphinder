@@ -46,7 +46,7 @@ def _extract_file(file_path: str) -> None:
 
 def fetch_assets() -> None:
     """Fetches the assets."""
-    logger = get_logger('utils')
+    logger = get_logger()
 
     if os.path.exists('subfinder'):
         logger.debug('subfinder present, skipping.')

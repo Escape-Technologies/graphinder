@@ -110,7 +110,7 @@ def transform_url_in_domain(url: str) -> str | None:
         if (search := re.search(r'(?:https?://(?:www.)?(?P<url>[^\s/]+)/?)', url)) is not None:
             return search.group('url')
 
-        get_logger('io').critical(f'{ url } does not contain any valid domain')
+        get_logger().error(f'{ url } does not contain any valid domain')
         return None
 
     # here the url is already a domain name
