@@ -30,5 +30,12 @@ def gql_endpoints_characterizer() -> list[str]:
         'api/graphql',
     ]
 
-    versioned_characterizers: list[str] = [version + '/' + char for char in characterizers for version in ['v1', 'v2']]
+    versioned_characterizers: list[str] = []
+    versions = ['v1', 'v2']
+    for version in versions:
+        for char in characterizers:
+            if any(v in char for v in versions):
+                continue
+            versioned_characterizers.append(f'{version}/{char}')
+
     return characterizers + versioned_characterizers
