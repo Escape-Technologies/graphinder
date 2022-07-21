@@ -2,7 +2,11 @@
 
 
 def gql_endpoints_characterizer() -> list[str]:
-    """return list of most common GQL endpoints."""
+    """Return list of most common GQL endpoints.
+
+    - Versioning has a huge cost on the performance of the scanner.
+    - We try to minimize the cost by using the most common endpoints only.
+    """
 
     characterizers: list[str] = [
         'graphql',
@@ -33,7 +37,7 @@ def gql_endpoints_characterizer() -> list[str]:
     versioned_characterizers: list[str] = []
     versions = ['v1', 'v2']
     for version in versions:
-        for char in characterizers:
+        for char in characterizers[:8]:
             if any(v in char for v in versions):
                 continue
             versioned_characterizers.append(f'{version}/{char}')
