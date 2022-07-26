@@ -1,8 +1,9 @@
 """Test main.py."""
 
 import argparse
-import importlib.metadata
 from multiprocessing import cpu_count
+
+import pkg_resources
 
 from graphinder.main import __version__, argument_builder, main, validate_arguments
 from graphinder.utils.logger import get_logger
@@ -10,7 +11,7 @@ from graphinder.utils.logger import get_logger
 
 def test_version() -> None:
     """version test."""
-    assert __version__ == importlib.metadata.version('graphinder'), 'Version has been changed, please update the test.'
+    assert __version__ == pkg_resources.get_distribution('graphinder').version, 'Version has been changed, please update the test.'
 
 
 def test_argument_builder() -> None:

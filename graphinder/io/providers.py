@@ -1,14 +1,16 @@
 """Provide datas to graphinder."""
 
+from typing import List
 
-def gql_endpoints_characterizer() -> list[str]:
+
+def gql_endpoints_characterizer() -> List[str]:
     """Return list of most common GQL endpoints.
 
     - Versioning has a huge cost on the performance of the scanner.
     - We try to minimize the cost by using the most common endpoints only.
     """
 
-    characterizers: list[str] = [
+    characterizers: List[str] = [
         'graphql',
         'appsync',
         'altair',
@@ -34,7 +36,7 @@ def gql_endpoints_characterizer() -> list[str]:
         'api/graphql',
     ]
 
-    versioned_characterizers: list[str] = []
+    versioned_characterizers: List[str] = []
     versions = ['v1', 'v2']
     for version in versions:
         for char in characterizers[:8]:

@@ -1,5 +1,7 @@
 """Test utils/finders.py."""
 
+from typing import List
+
 from graphinder.utils.finders import find_script_fetch_graphql, find_script_full_urls, find_script_window_base_urls
 
 
@@ -12,7 +14,7 @@ def test_find_script_full_urls() -> None:
         https://www.example.com
     """
 
-    urls: list[str] = find_script_full_urls(script_file)
+    urls: List[str] = find_script_full_urls(script_file)
 
     assert urls == [
         'https://example.com',
@@ -30,7 +32,7 @@ def test_find_script_window_base_urls() -> None:
         window.__BASE_URL__ + "/api/v1/graphql"
     """
 
-    urls: list[str] = find_script_window_base_urls('https://example.com', script_file)
+    urls: List[str] = find_script_window_base_urls('https://example.com', script_file)
 
     assert urls == [
         'https://example.com/graphql',
@@ -48,7 +50,7 @@ def test_find_script_fetch_graphql() -> None:
         fetch("/api/v1/graphql")
     """
 
-    urls: list[str] = find_script_fetch_graphql('https://example.com', script_file)
+    urls: List[str] = find_script_fetch_graphql('https://example.com', script_file)
 
     assert urls == [
         'https://example.com/graphql',

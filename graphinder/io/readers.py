@@ -1,6 +1,7 @@
 """I/O readers."""
 
 from io import TextIOWrapper
+from typing import List, Optional
 
 from graphinder.pool.domain import Domain
 from graphinder.utils.filters import transform_url_in_domain
@@ -8,10 +9,10 @@ from graphinder.utils.logger import get_logger
 
 
 def read_domains(
-    file: TextIOWrapper | None,
-    domain: str | None,
+    file: Optional[TextIOWrapper],
+    domain: Optional[str],
     precision_mode: bool = False,
-) -> list[Domain]:
+) -> List[Domain]:
     """Read domains from file."""
 
     if domain is not None:
@@ -23,8 +24,8 @@ def read_domains(
         get_logger().warning('no input file specified, skipping reading domains..')
         return []
 
-    urls: list[str] = list(set(file.read().splitlines()))
-    domains: list[Domain] = []
+    urls: List[str] = list(set(file.read().splitlines()))
+    domains: List[Domain] = []
     for url in urls:
         if (clean := transform_url_in_domain(url)) is not None:
             domains.append(Domain(clean, precision_mode))

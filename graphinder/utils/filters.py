@@ -1,13 +1,14 @@
 """All filters functions."""
 
 import re
+from typing import Dict, List, Optional, Set
 
 from graphinder.entities.pool import Url
 from graphinder.io.providers import gql_endpoints_characterizer
 from graphinder.utils.logger import get_logger
 
 
-def filter_common(urls: set[str]) -> set[str]:
+def filter_common(urls: Set[str]) -> Set[str]:
     """Remove commonly found urls in javascript files of a webpage such as w3.org."""
 
     common_strings = [
@@ -45,15 +46,15 @@ def filter_common(urls: set[str]) -> set[str]:
     return urls_filtered
 
 
-def filter_urls(urls: set[Url]) -> set[Url]:
+def filter_urls(urls: Set[Url]) -> Set[Url]:
     """Remove urls that are not valid."""
 
     # We will re-populate the list of endpoints, sorted in len order to unpack them.
-    _endpoints: list[str] = gql_endpoints_characterizer()
+    _endpoints: List[str] = gql_endpoints_characterizer()
     _endpoints.sort(key=len, reverse=True)
 
     # Let's unpack the list of endpoints.
-    unpacked_urls: dict[str, list[Url]] = {}
+    unpacked_urls: Dict[str, List[Url]] = {}
     for url in urls:
         for endpoint in _endpoints:
             if url.endswith(endpoint):
@@ -69,7 +70,7 @@ def filter_urls(urls: set[Url]) -> set[Url]:
     # Reconstruct the list of endpoints.
     # Attempt to find a full /graphql path.
     # Otherwise, use the smaller one.
-    filtered_urls: set[Url] = set()
+    filtered_urls: Set[Url] = set()
     for base_url, _urls in unpacked_urls.items():
 
         default_match: bool = False
@@ -86,11 +87,10 @@ def filter_urls(urls: set[Url]) -> set[Url]:
     return filtered_urls
 
 
-def remove_duplicate_domains(domains: list[str]) -> list[str]:
+def remove_duplicate_domains(domains: List[str]) -> List[str]:
     """if domains has example.com and www.example.com this will remove www.example.com."""
 
-    corrected_domains = []
-
+    corrected_domains: List[str] = []
     for domain in domains:
         if domain.startswith('www.'):
             if domain.lstrip('www.') in domains:
@@ -100,7 +100,7 @@ def remove_duplicate_domains(domains: list[str]) -> list[str]:
     return corrected_domains
 
 
-def transform_url_in_domain(url: str) -> str | None:
+def transform_url_in_domain(url: str) -> Optional[str]:
     """Transform a given url in domain.
 
     http(s)://(www.)

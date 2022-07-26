@@ -5,7 +5,7 @@ import asyncio
 import concurrent
 from copy import deepcopy
 from multiprocessing import Manager
-from typing import cast
+from typing import Dict, List, Set, Union, cast
 
 from graphinder.entities.io import Results
 from graphinder.entities.tasks import TasksList
@@ -22,17 +22,17 @@ from graphinder.utils.webhook import send_webhook
 def domain_routine(
     domain: Domain,
     args: argparse.Namespace,
-) -> dict[str, str | set[Url]]:
+) -> Dict[str, Union[str, Set[Url]]]:
     """Start domain routine."""
 
     _tasks: TasksList = init_domain_tasks(domain, args)
-    _urls: set[Url] = asyncio.run(consume_tasks(_tasks, domain))
+    _urls: Set[Url] = asyncio.run(consume_tasks(_tasks, domain))
 
     return {'domain': domain.url, 'urls': filter_urls(_urls)}
 
 
 def process_pool(
-    domains: list[Domain],
+    domains: List[Domain],
     args: argparse.Namespace,
     results: Results,
 ) -> None:
@@ -47,7 +47,7 @@ def process_pool(
             result = promise.result()
 
             domain = cast(str, result['domain'])
-            results[domain] = cast(set[Url], result['urls'])
+            results[domain] = cast(Set[Url], result['urls'])
             logger.info(f'{domain} has been scanned completly.')
 
 
@@ -57,7 +57,7 @@ def main_routine(args: argparse.Namespace) -> Results:
     logger = get_logger()
     logger.info('starting main routine..')
 
-    domains: list[Domain] = read_domains(args.input_file, args.domain, args.precision_mode)
+    domains: List[Domain] = read_domains(args.input_file, args.domain, args.precision_mode)
     logger.info(f'{len(domains)} domains loaded.')
 
     args.max_workers = min(args.max_workers, len(domains))

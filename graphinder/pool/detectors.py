@@ -2,15 +2,16 @@
 
 import re
 from json import JSONDecodeError
+from typing import Dict, Optional, Tuple
 
 import aiohttp
 
 from graphinder.io.providers import gql_endpoints_characterizer
 
-PAYLOAD: dict[str, str] = {'query': 'query {  __typename }'}
+PAYLOAD: Dict[str, str] = {'query': 'query {  __typename }'}
 
 
-def _look_like_graphql_url(url: str) -> tuple[bool, str | None]:
+def _look_like_graphql_url(url: str) -> Tuple[bool, Optional[str]]:
     """Check if the url looks like a GraphQL endpoint."""
 
     for part in gql_endpoints_characterizer():

@@ -1,7 +1,7 @@
 """Discord webhook utils."""
 
 import random
-from typing import Any
+from typing import Any, Dict
 
 import requests
 
@@ -11,7 +11,7 @@ from graphinder.entities.io import Results
 def format_webhook(results: Results) -> dict:
     """Format embeds for webhook."""
 
-    base: dict[str, Any] = {
+    base: Dict[str, Any] = {
         'username': 'Graphinder',
         'embeds': [],
     }

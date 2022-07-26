@@ -2,6 +2,7 @@
 
 import asyncio
 import os
+from typing import List, Optional, Set
 
 import aiohttp
 
@@ -16,7 +17,7 @@ class Domain:
 
     """Domain entity."""
 
-    semaphore: asyncio.Semaphore | None
+    semaphore: Optional[asyncio.Semaphore]
     session: aiohttp.ClientSession
 
     def __init__(
@@ -28,14 +29,14 @@ class Domain:
 
         self.url = url
         self.logger = get_logger()
-        self.subdomains: list[str] = []
+        self.subdomains: List[str] = []
 
         if precision_mode:
             self.semaphore = asyncio.Semaphore(100)
         else:
             self.semaphore = None
 
-        self.results: set[Url] = set()
+        self.results: Set[Url] = set()
 
     def fetch_subdomains(
         self,
@@ -59,7 +60,7 @@ class Domain:
     async def fetch_script(
         self,
         url: str,
-    ) -> set[Url]:
+    ) -> Set[Url]:
         """Fetch script for endpoints."""
 
         self.logger.debug(f'fetching script {url}...')
@@ -69,7 +70,7 @@ class Domain:
     async def fetch_page_scripts(
         self,
         url: str,
-    ) -> set[Url]:
+    ) -> Set[Url]:
         """Fetch page for scripts url."""
 
         self.logger.debug(f'fetching page scripts {url}...')

@@ -1,21 +1,23 @@
 """The CLI."""
 
 import argparse
-import importlib.metadata
 import logging
 import sys
 from datetime import date
 from multiprocessing import cpu_count
+from typing import List, Optional
+
+import pkg_resources
 
 from graphinder.entities.io import Results
 from graphinder.pool import main_routine
 from graphinder.utils.assets import fetch_assets
 from graphinder.utils.logger import setup_logger
 
-__version__ = importlib.metadata.version(__package__ or __name__)
+__version__ = pkg_resources.get_distribution(__package__ or __name__).version
 
 
-def argument_builder(args: list[str]) -> argparse.Namespace:
+def argument_builder(args: List[str]) -> argparse.Namespace:
     """Builds the arguments."""
 
     parser = argparse.ArgumentParser()
@@ -104,8 +106,8 @@ def cli() -> None:
 
 
 def main(
-    argv: list[str] | None = None,
-    logger: logging.Logger | None = None,
+    argv: Optional[List[str]] = None,
+    logger: Optional[logging.Logger] = None,
 ) -> Results:
     """Ignites arguments."""
 

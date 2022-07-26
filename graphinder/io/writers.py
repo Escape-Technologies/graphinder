@@ -2,7 +2,7 @@
 
 import json
 from io import TextIOWrapper
-from typing import Any
+from typing import Any, List
 
 from graphinder.entities.io import Results
 from graphinder.utils.filters import transform_url_in_domain
@@ -42,8 +42,8 @@ def write_results_inplace(
     """Write the result comma separated (as a CSV) into the input file."""
 
     input_file.seek(0)
-    urls: list[str] = list(set(input_file.read().splitlines()))
-    final_doc: list[str] = []
+    urls: List[str] = list(set(input_file.read().splitlines()))
+    final_doc: List[str] = []
     for url in urls:
         if (clean := transform_url_in_domain(url)) is not None:
             if clean in results:

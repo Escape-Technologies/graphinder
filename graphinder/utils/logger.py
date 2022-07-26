@@ -2,6 +2,7 @@
 
 import logging
 import warnings
+from typing import Optional
 
 
 def disable_internal_loggers() -> None:
@@ -14,7 +15,7 @@ def disable_internal_loggers() -> None:
 def setup_logger(
     verbose_mode: bool = False,
     quiet_mode: bool = False,
-    logger: logging.Logger | None = None,
+    logger: Optional[logging.Logger] = None,
 ) -> logging.Logger:
     """Setup logger."""
 
