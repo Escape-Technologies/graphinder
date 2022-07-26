@@ -1,5 +1,7 @@
 """Test pool/domain.py."""
 
+from typing import Set
+
 import aiohttp
 import pytest
 
@@ -36,7 +38,7 @@ async def test_domain_class_2() -> None:
     domain: Domain = Domain('example2.com')
     domain.session = aiohttp.ClientSession()
 
-    res: set[Url] = await domain.fetch_script('https://cdn.jsdelivr.net/npm/graphql-playground-react/build/static/js/middleware.js')
+    res: Set[Url] = await domain.fetch_script('https://cdn.jsdelivr.net/npm/graphql-playground-react/build/static/js/middleware.js')
     assert len(res) == 13
 
     res = await domain.fetch_page_scripts('https://gontoz.escape.tech/')

@@ -1,5 +1,7 @@
 """Test utils/filters.py."""
 
+from typing import List, Set
+
 import pytest
 
 from graphinder.entities.pool import Url
@@ -10,7 +12,7 @@ from graphinder.utils.filters import filter_common, filter_urls, remove_duplicat
 def test_filter_common() -> None:
     """test for filter_common."""
 
-    _input: set[str] = {
+    _input: Set[str] = {
         'http://a',
         'http://x',
         'https://w3.org',
@@ -46,7 +48,7 @@ def test_filter_common() -> None:
 def test_filter_urls() -> None:
     """test for filter_urls."""
 
-    _input: set[Url] = set()
+    _input: Set[Url] = set()
 
     for url in gql_endpoints_characterizer():
         _input.add(Url('https://example.com/' + url))
@@ -57,7 +59,7 @@ def test_filter_urls() -> None:
 def test_remove_duplicate_domains() -> None:
     """test for duplicate_domain."""
 
-    domains: list[str] = [
+    domains: List[str] = [
         'example.com',
         'www.example.com',
     ]
@@ -71,7 +73,10 @@ def test_remove_duplicate_domains() -> None:
     ('https://example.com', 'example.com'),
     ('https://example.com/', 'example.com'),
 ])
-def test_transform_url_in_domain(url: str, expected: str) -> None:
+def test_transform_url_in_domain(
+    url: str,
+    expected: str,
+) -> None:
     """test for transform_url_in_domain."""
 
     assert transform_url_in_domain(url) == expected
