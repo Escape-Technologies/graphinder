@@ -2,6 +2,7 @@
 
 import argparse
 import asyncio
+from typing import Set
 
 import aiohttp
 
@@ -66,7 +67,11 @@ def init_domain_tasks(
     return generate_tasks(domain, args)
 
 
-async def add_tasks(domain: Domain, urls: set[Url], tag: TaskTags) -> None:
+async def add_tasks(
+    domain: Domain,
+    urls: Set[Url],
+    tag: TaskTags,
+) -> None:
     """Add tasks."""
 
     for url in urls:
@@ -105,7 +110,7 @@ async def process_task(
 async def consume_tasks(
     tasks: TasksList,
     domain: Domain,
-) -> set[Url]:
+) -> Set[Url]:
     """Consume tasks."""
 
     connector = aiohttp.TCPConnector(limit=100, ttl_dns_cache=600)
