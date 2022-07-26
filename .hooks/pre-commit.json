@@ -8,7 +8,7 @@
         },
         {
             "name": "isort",
-            "command": "isort -m 9 --line-length 159 graphinder tests"
+            "command": "isort -m 9 --line-length 160 graphinder tests"
         },
         {
             "name": "unify",
