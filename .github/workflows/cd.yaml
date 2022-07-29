@@ -53,7 +53,7 @@ jobs:
           logout: true
       - name: Docker meta
         id: meta
-        uses: docker/metadata-action@v3
+        uses: docker/metadata-action@v4
         with:
           images: ${{ secrets.DOCKERHUB_REPO}}/graphinder
       - name: Build and push
