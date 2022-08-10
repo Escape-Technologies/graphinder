@@ -16,7 +16,8 @@ def read_domains(
     """Read domains from file."""
 
     if domain is not None:
-        if (clean := transform_url_in_domain(domain)) is not None:
+        clean = transform_url_in_domain(domain)
+        if clean is not None:
             return [Domain(clean, precision_mode)]
         return []
 
@@ -27,7 +28,8 @@ def read_domains(
     urls: List[str] = list(set(file.read().splitlines()))
     domains: List[Domain] = []
     for url in urls:
-        if (clean := transform_url_in_domain(url)) is not None:
+        clean = transform_url_in_domain(url)
+        if clean is not None:
             domains.append(Domain(clean, precision_mode))
 
     get_logger().info(f'found { len(domains) } domains.')

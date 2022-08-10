@@ -45,7 +45,8 @@ def write_results_inplace(
     urls: List[str] = list(set(input_file.read().splitlines()))
     final_doc: List[str] = []
     for url in urls:
-        if (clean := transform_url_in_domain(url)) is not None:
+        clean = transform_url_in_domain(url)
+        if clean is not None:
             if clean in results:
                 final_doc.append(f'{url},{" ".join(results[clean])}')
         else:
