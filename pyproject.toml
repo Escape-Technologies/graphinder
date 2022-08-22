@@ -42,7 +42,7 @@ requests = "^2.27.1"
 
 [tool.poetry.dev-dependencies]
 autoflake = "^1.4"
-docformatter = "^1.4"
+docformatter = "^1.5"
 isort = "^5.10.1"
 mypy = "^0.921"
 poetryup = "^0.10.0"
