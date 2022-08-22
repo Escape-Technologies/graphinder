@@ -313,21 +313,22 @@ python-versions = ">=3.7"
 
 [[package]]
 name = "mypy"
-version = "0.921"
+version = "0.971"
 description = "Optional static typing for Python"
 category = "dev"
 optional = false
 python-versions = ">=3.6"
 
 [package.dependencies]
-mypy-extensions = ">=0.4.3,<0.5.0"
-tomli = ">=1.1.0,<3.0.0"
+mypy-extensions = ">=0.4.3"
+tomli = {version = ">=1.1.0", markers = "python_version < \"3.11\""}
 typed-ast = {version = ">=1.4.0,<2", markers = "python_version < \"3.8\""}
-typing-extensions = ">=3.7.4"
+typing-extensions = ">=3.10"
 
 [package.extras]
 dmypy = ["psutil (>=4.0)"]
 python2 = ["typed-ast (>=1.4.0,<2)"]
+reports = ["lxml"]
 
 [[package]]
 name = "mypy-extensions"
@@ -770,7 +771,7 @@ testing = ["pytest (>=6)", "pytest-checkdocs (>=2.4)", "pytest-flake8", "pytest-
 [metadata]
 lock-version = "1.1"
 python-versions = ">=3.7,<3.11"
-content-hash = "46701b38c4e5ea9fdecada17fc694eb22b985deaef54faf4d710674f2064f653"
+content-hash = "70f1720a67365d5abb847d424c3751c72e122cb132f9a4cef2be27c0e0d2773c"
 
 [metadata.files]
 aiodns = [
@@ -1300,26 +1301,29 @@ multidict = [
     {file = "multidict-6.0.2.tar.gz", hash = "sha256:5ff3bd75f38e4c43f1f470f2df7a4d430b821c4ce22be384e1459cb57d6bb013"},
 ]
 mypy = [
-    {file = "mypy-0.921-cp310-cp310-macosx_10_9_x86_64.whl", hash = "sha256:d9d6a9c35ac1e5d89d9f71f60d4932dfba00b8d2cb0ba758293f0214c851d2c0"},
-    {file = "mypy-0.921-cp310-cp310-macosx_11_0_arm64.whl", hash = "sha256:01ff922b9fa13f451ce51f7b707c97e35b5dd6ad0104a83d598306255cc7f990"},
-    {file = "mypy-0.921-cp310-cp310-manylinux_2_5_x86_64.manylinux1_x86_64.manylinux_2_12_x86_64.manylinux2010_x86_64.whl", hash = "sha256:279d87385acc33d4117612002026d09ef039845dee2cab41d2cca38ca63a72b3"},
-    {file = "mypy-0.921-cp310-cp310-win_amd64.whl", hash = "sha256:f4688e06b2bbb9708eda50bf119abf072833687ca25c11caf84371fb44722b8a"},
-    {file = "mypy-0.921-cp36-cp36m-macosx_10_9_x86_64.whl", hash = "sha256:54bfe651425cc0935e056327c8f0da749015d64e1586601a9350363f4a3a7794"},
-    {file = "mypy-0.921-cp36-cp36m-manylinux_2_5_x86_64.manylinux1_x86_64.manylinux_2_12_x86_64.manylinux2010_x86_64.whl", hash = "sha256:aadc06bffbe00c285771056e5b0364bc3e0a814e3a08d2cc64f4b12ea40bc283"},
-    {file = "mypy-0.921-cp36-cp36m-win_amd64.whl", hash = "sha256:49e528bf13d54a4cbb163fc7532ae220edf0b1bb79070481c77a0c83cc4e36ce"},
-    {file = "mypy-0.921-cp37-cp37m-macosx_10_9_x86_64.whl", hash = "sha256:1952b1c8e84eb03375b5e339295a96b92dd5b865d2a9768431c9c5aa58f8d32b"},
-    {file = "mypy-0.921-cp37-cp37m-manylinux_2_5_x86_64.manylinux1_x86_64.manylinux_2_12_x86_64.manylinux2010_x86_64.whl", hash = "sha256:2d816a6e2114c473181e0df3013decb9a02acbc57d45454357a05258acd528a3"},
-    {file = "mypy-0.921-cp37-cp37m-win_amd64.whl", hash = "sha256:777fc39141b8a4154c61cc6dc0315b25832b8b6efe5a2bef1dba66d5544341d4"},
-    {file = "mypy-0.921-cp38-cp38-macosx_10_9_x86_64.whl", hash = "sha256:8fcad97e6be583c7de2d18304581dc7f8c42ce4950df5d56005bd3efd53e9ef9"},
-    {file = "mypy-0.921-cp38-cp38-macosx_11_0_arm64.whl", hash = "sha256:71c193bc6dc1b2f183b59f6473a13e627885751d9e534fd26bf15bc8eeed8772"},
-    {file = "mypy-0.921-cp38-cp38-manylinux_2_5_x86_64.manylinux1_x86_64.manylinux_2_12_x86_64.manylinux2010_x86_64.whl", hash = "sha256:b64e64fb6092c86239a7b10437c8e0b9b013e704ecdf8bdfaa8d80dbd7ba2a73"},
-    {file = "mypy-0.921-cp38-cp38-win_amd64.whl", hash = "sha256:02aca528afcb965ea7bf2bc5fbe5736225b5786e135d64cce5075e3bc8b785a4"},
-    {file = "mypy-0.921-cp39-cp39-macosx_10_9_x86_64.whl", hash = "sha256:59f6280e3cbb961b7a9957b6e1739c60fd027743c5ec4d3636f1ae24d5249528"},
-    {file = "mypy-0.921-cp39-cp39-macosx_11_0_arm64.whl", hash = "sha256:549557f7dc7ddd45ca08df0944b7f6519a0e23e6336ef3ff260a4e100fe1ccb3"},
-    {file = "mypy-0.921-cp39-cp39-manylinux_2_5_x86_64.manylinux1_x86_64.manylinux_2_12_x86_64.manylinux2010_x86_64.whl", hash = "sha256:b6f6bc11222b61fa805371f18d70f1546f5ca26db5eda8ad9a75364460bd17a0"},
-    {file = "mypy-0.921-cp39-cp39-win_amd64.whl", hash = "sha256:8c2cff600d34ea8f3426a470e0ea75bd35c75269f6df69a9320c99b4e92edca4"},
-    {file = "mypy-0.921-py3-none-any.whl", hash = "sha256:6e57f340ea04a6f7c67c7757e573bc61c2cc096f87ebd829d7c3264dedc0bc54"},
-    {file = "mypy-0.921.tar.gz", hash = "sha256:eca089d7053dff45d6dcd5bf67f1cabc311591e85d378917d97363e7c13da088"},
+    {file = "mypy-0.971-cp310-cp310-macosx_10_9_universal2.whl", hash = "sha256:f2899a3cbd394da157194f913a931edfd4be5f274a88041c9dc2d9cdcb1c315c"},
+    {file = "mypy-0.971-cp310-cp310-macosx_10_9_x86_64.whl", hash = "sha256:98e02d56ebe93981c41211c05adb630d1d26c14195d04d95e49cd97dbc046dc5"},
+    {file = "mypy-0.971-cp310-cp310-macosx_11_0_arm64.whl", hash = "sha256:19830b7dba7d5356d3e26e2427a2ec91c994cd92d983142cbd025ebe81d69cf3"},
+    {file = "mypy-0.971-cp310-cp310-manylinux_2_5_x86_64.manylinux1_x86_64.manylinux_2_12_x86_64.manylinux2010_x86_64.whl", hash = "sha256:02ef476f6dcb86e6f502ae39a16b93285fef97e7f1ff22932b657d1ef1f28655"},
+    {file = "mypy-0.971-cp310-cp310-win_amd64.whl", hash = "sha256:25c5750ba5609a0c7550b73a33deb314ecfb559c350bb050b655505e8aed4103"},
+    {file = "mypy-0.971-cp36-cp36m-macosx_10_9_x86_64.whl", hash = "sha256:d3348e7eb2eea2472db611486846742d5d52d1290576de99d59edeb7cd4a42ca"},
+    {file = "mypy-0.971-cp36-cp36m-manylinux_2_5_x86_64.manylinux1_x86_64.manylinux_2_12_x86_64.manylinux2010_x86_64.whl", hash = "sha256:3fa7a477b9900be9b7dd4bab30a12759e5abe9586574ceb944bc29cddf8f0417"},
+    {file = "mypy-0.971-cp36-cp36m-win_amd64.whl", hash = "sha256:2ad53cf9c3adc43cf3bea0a7d01a2f2e86db9fe7596dfecb4496a5dda63cbb09"},
+    {file = "mypy-0.971-cp37-cp37m-macosx_10_9_x86_64.whl", hash = "sha256:855048b6feb6dfe09d3353466004490b1872887150c5bb5caad7838b57328cc8"},
+    {file = "mypy-0.971-cp37-cp37m-manylinux_2_5_x86_64.manylinux1_x86_64.manylinux_2_12_x86_64.manylinux2010_x86_64.whl", hash = "sha256:23488a14a83bca6e54402c2e6435467a4138785df93ec85aeff64c6170077fb0"},
+    {file = "mypy-0.971-cp37-cp37m-win_amd64.whl", hash = "sha256:4b21e5b1a70dfb972490035128f305c39bc4bc253f34e96a4adf9127cf943eb2"},
+    {file = "mypy-0.971-cp38-cp38-macosx_10_9_universal2.whl", hash = "sha256:9796a2ba7b4b538649caa5cecd398d873f4022ed2333ffde58eaf604c4d2cb27"},
+    {file = "mypy-0.971-cp38-cp38-macosx_10_9_x86_64.whl", hash = "sha256:5a361d92635ad4ada1b1b2d3630fc2f53f2127d51cf2def9db83cba32e47c856"},
+    {file = "mypy-0.971-cp38-cp38-macosx_11_0_arm64.whl", hash = "sha256:b793b899f7cf563b1e7044a5c97361196b938e92f0a4343a5d27966a53d2ec71"},
+    {file = "mypy-0.971-cp38-cp38-manylinux_2_5_x86_64.manylinux1_x86_64.manylinux_2_12_x86_64.manylinux2010_x86_64.whl", hash = "sha256:d1ea5d12c8e2d266b5fb8c7a5d2e9c0219fedfeb493b7ed60cd350322384ac27"},
+    {file = "mypy-0.971-cp38-cp38-win_amd64.whl", hash = "sha256:23c7ff43fff4b0df93a186581885c8512bc50fc4d4910e0f838e35d6bb6b5e58"},
+    {file = "mypy-0.971-cp39-cp39-macosx_10_9_universal2.whl", hash = "sha256:1f7656b69974a6933e987ee8ffb951d836272d6c0f81d727f1d0e2696074d9e6"},
+    {file = "mypy-0.971-cp39-cp39-macosx_10_9_x86_64.whl", hash = "sha256:d2022bfadb7a5c2ef410d6a7c9763188afdb7f3533f22a0a32be10d571ee4bbe"},
+    {file = "mypy-0.971-cp39-cp39-macosx_11_0_arm64.whl", hash = "sha256:ef943c72a786b0f8d90fd76e9b39ce81fb7171172daf84bf43eaf937e9f220a9"},
+    {file = "mypy-0.971-cp39-cp39-manylinux_2_5_x86_64.manylinux1_x86_64.manylinux_2_12_x86_64.manylinux2010_x86_64.whl", hash = "sha256:d744f72eb39f69312bc6c2abf8ff6656973120e2eb3f3ec4f758ed47e414a4bf"},
+    {file = "mypy-0.971-cp39-cp39-win_amd64.whl", hash = "sha256:77a514ea15d3007d33a9e2157b0ba9c267496acf12a7f2b9b9f8446337aac5b0"},
+    {file = "mypy-0.971-py3-none-any.whl", hash = "sha256:0d054ef16b071149917085f51f89555a576e2618d5d9dd70bd6eea6410af3ac9"},
+    {file = "mypy-0.971.tar.gz", hash = "sha256:40b0f21484238269ae6a57200c807d80debc6459d444c0489a102d7c6a75fa56"},
 ]
 mypy-extensions = [
     {file = "mypy_extensions-0.4.3-py2.py3-none-any.whl", hash = "sha256:090fedd75945a69ae91ce1303b5824f428daf5a028d2f6ab8a299250a846f15d"},
