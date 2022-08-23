@@ -5,7 +5,7 @@ import asyncio
 import concurrent
 from copy import deepcopy
 from multiprocessing import Manager
-from typing import Dict, List, Set, Union, cast
+from typing import Any, Dict, List, Set, Tuple, Union, cast
 
 from graphinder.entities.io import Results
 from graphinder.entities.tasks import TasksList
@@ -40,6 +40,7 @@ def process_pool(
 
     logger = get_logger()
 
+    futures: List[Tuple[Domain, Any]] = []
     with concurrent.futures.ProcessPoolExecutor(max_workers=args.max_workers) as pool:
         # Submit the jobs to the executor.
         future_to_domain = {pool.submit(domain_routine, domain, args): domain for domain in domains}
@@ -47,10 +48,18 @@ def process_pool(
         # Collect all results and print them out.
         for future in concurrent.futures.as_completed(future_to_domain):
             domain = future_to_domain[future]
-            result = future.result()
+            futures.append((
+                domain,
+                future,
+            ))
 
-            results[domain.url] = cast(Set[Url], result['urls'])
             logger.info(f'{domain} has been scanned completly.')
+
+    for domain, future in futures:
+        output = future.result()
+        results[domain.url] = cast(Set[Url], output['urls'])
+
+    logger.info(f'{domain} has been scanned completly.')
 
 
 def main_routine(args: argparse.Namespace) -> Results:
