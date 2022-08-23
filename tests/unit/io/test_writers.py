@@ -31,7 +31,7 @@ def test_write_results() -> None:
     }
 
     with open('test_write_results.json', 'w', encoding='utf-8') as output_file:
-        write_results(output_file, results)  # type: ignore[arg-type]
+        write_results(output_file, results)
 
     with open('test_write_results.json', 'r', encoding='utf-8') as output_file:
         results_from_file = json.load(output_file)
