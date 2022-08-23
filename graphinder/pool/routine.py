@@ -4,7 +4,7 @@ import argparse
 import asyncio
 import concurrent
 from copy import deepcopy
-from multiprocessing import Manager
+from multiprocessing import Manager, set_start_method
 from typing import Dict, List, Set, Union, cast
 
 from graphinder.entities.io import Results
@@ -53,6 +53,8 @@ def process_pool(
 
 def main_routine(args: argparse.Namespace) -> Results:
     """Main pool routine."""
+
+    set_start_method('spawn')
 
     logger = get_logger()
     logger.info('starting main routine..')
