@@ -102,7 +102,7 @@ def argument_builder(args: List[str]) -> argparse.Namespace:
         dest='max_workers',
         type=int,
         help='Maximum number of concurrent workers in multi-urls mode.',
-        default=(max(1, int(cpu_count() / 2)), ),
+        default=(max(1, int(cpu_count() / 2))),
     )
     parser.add_argument(
         '--webhook_url',

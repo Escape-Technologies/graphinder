@@ -71,9 +71,9 @@ def main_routine(args: argparse.Namespace) -> Results:
 
     with Manager() as manager:
 
-        results: Results = manager.dict()
+        results: Results = cast(Results, manager.dict())
         for domain in domains:
-            results[domain.url] = manager.list()
+            results[domain.url] = cast(Set[Url], manager.list())
 
         process_pool(domains, args, results)
 
