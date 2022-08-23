@@ -107,7 +107,8 @@ def transform_url_in_domain(url: str) -> Optional[str]:
     """
 
     if 'https://' in url or 'http://' in url:  # here the url can even ben contained in a string it will still work (e.g. csv)
-        if (search := re.search(r'(?:https?://(?:www.)?(?P<url>[^\s/]+)/?)', url)) is not None:
+        search = re.search(r'(?:https?://(?:www.)?(?P<url>[^\s/]+)/?)', url)
+        if search is not None:
             return search.group('url')
 
         get_logger().error(f'{ url } does not contain any valid domain')

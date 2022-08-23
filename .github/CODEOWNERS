@@ -12,4 +12,6 @@
 # This should make it easy to add new rules without breaking existing ones.
 
 # Global rule:
-*           @iCarossio @c3b5aw
+*           @c3b5aw
+
+graphinder/ @iCarossio
