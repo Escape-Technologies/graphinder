@@ -22,8 +22,8 @@ def test_argument_builder() -> None:
     assert args.domain is None
     assert args.input_file is None
     assert not args.verbose_mode
-    assert args.script_mode
-    assert args.bruteforce_mode
+    assert not args.no_script_mode
+    assert not args.no_bruteforce_mode
     assert args.reduce_mode == 100
     assert args.max_workers == cpu_count() / 2
 
@@ -33,7 +33,7 @@ def test_argument_builder() -> None:
 
     args = argument_builder(['--no-bruteforce'])
 
-    assert not args.bruteforce_mode
+    assert args.no_bruteforce_mode
 
 
 def test_validate_arguments() -> None:

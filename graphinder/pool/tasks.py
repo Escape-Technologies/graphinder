@@ -9,6 +9,7 @@ import aiohttp
 from graphinder.entities.tasks import Task, TasksList, TaskTags
 from graphinder.io.providers import gql_endpoints_characterizer
 from graphinder.pool.domain import Domain, Url
+from graphinder.utils.filters import remove_suffix
 
 
 def generate_scripts_tasks(domain: Domain) -> TasksList:
@@ -32,7 +33,7 @@ def generate_bruteforce_tasks(domain: Domain) -> TasksList:
     for subdomain in domain.subdomains:
         if subdomain:
             for directory in gql_endpoints_characterizer():
-                url: str = f'http://{subdomain.removesuffix("/graphql").rstrip("/")}' + '/' + directory
+                url: str = f'http://{remove_suffix(subdomain, "/graphql").rstrip("/")}' + '/' + directory
                 tasks.append(Task(domain.url, TaskTags.FETCH_ENDPOINT, url))
 
     domain.logger.debug(f'{len(tasks)} bruteforce tasks generated.')
@@ -47,10 +48,10 @@ def generate_tasks(
 
     tasks: TasksList = []
 
-    if args.script_mode:
+    if not args.no_script_mode:
         tasks += generate_scripts_tasks(domain)
 
-    if args.bruteforce_mode:
+    if not args.no_bruteforce_mode:
         tasks += generate_bruteforce_tasks(domain)
 
     domain.logger.info(f'{len(tasks)} tasks generated.')

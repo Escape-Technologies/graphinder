@@ -8,7 +8,7 @@ from bs4 import BeautifulSoup as bs4  # type: ignore[import]
 
 from graphinder.entities.errors import AwaitableRequestException
 from graphinder.entities.pool import Url
-from graphinder.utils.filters import filter_common
+from graphinder.utils.filters import filter_common, remove_suffix
 from graphinder.utils.finders import find_script_fetch_graphql, find_script_full_urls, find_script_window_base_urls
 
 
@@ -87,7 +87,7 @@ async def extract_urls_from_script(
 
             for potential in _urls:
                 if not potential.endswith('/graphql') or not domain_url in potential:
-                    potential = f'{potential.removesuffix("/graphql")}/graphql'
+                    potential = f'{remove_suffix(potential, "/graphql")}/graphql'
 
                 potentials_gqls.add(Url(potential))
 
