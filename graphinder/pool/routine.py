@@ -5,7 +5,6 @@ import asyncio
 import concurrent
 from copy import deepcopy
 from multiprocessing import Manager
-from multiprocessing import set_start_method as mp_set_start_method
 from typing import Dict, List, Set, Union, cast
 
 from graphinder.entities.io import Results
@@ -18,8 +17,6 @@ from graphinder.pool.tasks import consume_tasks, init_domain_tasks
 from graphinder.utils.filters import filter_urls
 from graphinder.utils.logger import get_logger
 from graphinder.utils.webhook import send_webhook
-
-mp_set_start_method('spawn', force=True)
 
 
 def domain_routine(
@@ -44,13 +41,15 @@ def process_pool(
     logger = get_logger()
 
     with concurrent.futures.ProcessPoolExecutor(max_workers=args.max_workers) as pool:
-        promises = (pool.submit(domain_routine, domain, args) for domain in domains)
+        # Submit the jobs to the executor.
+        future_to_domain = {pool.submit(domain_routine, domain, args): domain for domain in domains}
 
-        for promise in concurrent.futures.as_completed(promises):
-            result = promise.result()
+        # Collect all results and print them out.
+        for future in concurrent.futures.as_completed(future_to_domain):
+            domain = future_to_domain[future]
+            result = future.result()
 
-            domain = cast(str, result['domain'])
-            results[domain] = cast(Set[Url], result['urls'])
+            results[domain.url] = cast(Set[Url], result['urls'])
             logger.info(f'{domain} has been scanned completly.')
 
 
@@ -76,7 +75,7 @@ def main_routine(args: argparse.Namespace) -> Results:
 
         results: Results = cast(Results, manager.dict())
         for domain in domains:
-            results[domain.url] = cast(Set[Url], manager.list())
+            results[domain.url] = set()
 
         process_pool(domains, args, results)
 
