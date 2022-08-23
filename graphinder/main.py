@@ -60,28 +60,25 @@ def argument_builder(args: List[str]) -> argparse.Namespace:
         default=False,
     )
     parser.add_argument(
-        '--script',
-        '-s',
-        dest='script_mode',
-        type=bool,
-        help='Check scripts assets to extract GraphQL calls',
-        default=True,
+        '--no-script',
+        '-ns',
+        dest='no_script_mode',
+        help='Disable script scanning',
+        action='store_true',
     )
     parser.add_argument(
         '--quiet',
         '-q',
         dest='quiet_mode',
-        type=bool,
         help='Quiet',
-        default=False,
+        action='store_true',
     )
     parser.add_argument(
-        '--bruteforce',
-        '-b',
-        dest='bruteforce_mode',
-        type=bool,
-        help='Scan directory looking for GraphQL endpoints',
-        default=True,
+        '--no-bruteforce',
+        '-nb',
+        dest='no_bruteforce_mode',
+        help='Disable directory scanning',
+        action='store_true',
     )
     parser.add_argument(
         '--precision',
@@ -136,7 +133,7 @@ def validate_arguments(
         logger.error('you must supply a domain or a input_file.')
         return False
 
-    if not args.script_mode and not args.bruteforce_mode:
+    if args.no_script_mode and args.no_bruteforce_mode:
         logger.error('no scanning mode selected.')
         return False
 

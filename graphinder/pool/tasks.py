@@ -47,10 +47,10 @@ def generate_tasks(
 
     tasks: TasksList = []
 
-    if args.script_mode:
+    if not args.no_script_mode:
         tasks += generate_scripts_tasks(domain)
 
-    if args.bruteforce_mode:
+    if not args.no_bruteforce_mode:
         tasks += generate_bruteforce_tasks(domain)
 
     domain.logger.info(f'{len(tasks)} tasks generated.')
