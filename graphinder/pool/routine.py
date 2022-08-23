@@ -4,7 +4,8 @@ import argparse
 import asyncio
 import concurrent
 from copy import deepcopy
-from multiprocessing import Manager, set_start_method
+from multiprocessing import Manager
+from multiprocessing import set_start_method as mp_set_start_method
 from typing import Dict, List, Set, Union, cast
 
 from graphinder.entities.io import Results
@@ -17,6 +18,8 @@ from graphinder.pool.tasks import consume_tasks, init_domain_tasks
 from graphinder.utils.filters import filter_urls
 from graphinder.utils.logger import get_logger
 from graphinder.utils.webhook import send_webhook
+
+mp_set_start_method('spawn', force=True)
 
 
 def domain_routine(
@@ -53,8 +56,6 @@ def process_pool(
 
 def main_routine(args: argparse.Namespace) -> Results:
     """Main pool routine."""
-
-    set_start_method('spawn')
 
     logger = get_logger()
     logger.info('starting main routine..')
