@@ -21,8 +21,20 @@ def argument_builder(args: List[str]) -> argparse.Namespace:
     """Builds the arguments."""
 
     parser = argparse.ArgumentParser()
-    parser.add_argument('--domain', '-d', dest='domain', type=str, help='Domain to scan')
-    parser.add_argument('--input-file', '-f', dest='input_file', type=argparse.FileType('r+'), help='The path to the text file of domains to scan')
+    parser.add_argument(
+        '--domain',
+        '-d',
+        dest='domain',
+        type=str,
+        help='Domain to scan',
+    )
+    parser.add_argument(
+        '--input-file',
+        '-f',
+        dest='input_file',
+        type=argparse.FileType('r+'),
+        help='The path to the text file of domains to scan',
+    )
     parser.add_argument(
         '--inplace',
         '-i',
@@ -30,26 +42,79 @@ def argument_builder(args: List[str]) -> argparse.Namespace:
         type=bool,
         help='Write the results in the same file as the input file, comma separated (CSV)',
         default=False,
-        action=argparse.BooleanOptionalAction,
     )
-    parser.add_argument('--output-file', '-o', dest='output_file', type=argparse.FileType('w'), help='The path of the results file', default='results.json')
-    parser.add_argument('--verbose', '-v', dest='verbose_mode', type=bool, help='Verbose', default=False, action=argparse.BooleanOptionalAction)
     parser.add_argument(
-        '--script', '-s', dest='script_mode', type=bool, help='Check scripts assets to extract GraphQL calls', default=True,
-        action=argparse.BooleanOptionalAction
+        '--output-file',
+        '-o',
+        dest='output_file',
+        type=argparse.FileType('w'),
+        help='The path of the results file',
+        default='results.json',
     )
-    parser.add_argument('--quiet', '-q', dest='quiet_mode', type=bool, help='Quiet', default=False, action=argparse.BooleanOptionalAction)
     parser.add_argument(
-        '--bruteforce', '-b', dest='bruteforce_mode', type=bool, help='Scan directory looking for GraphQL endpoints', default=True,
-        action=argparse.BooleanOptionalAction
+        '--verbose',
+        '-v',
+        dest='verbose_mode',
+        type=bool,
+        help='Verbose',
+        default=False,
     )
-    parser.add_argument('--precision', '-p', dest='precision_mode', type=bool, help='Use precision mode', default=True, action=argparse.BooleanOptionalAction)
-    parser.add_argument('--reduce', '-r', dest='reduce_mode', type=int, help='The maximum number of subdomains to scan.', default=100)
     parser.add_argument(
-        '--max-workers', '-w', dest='max_workers', type=int, help='Maximum number of concurrent workers in multi-urls mode.',
-        default=(max(1, int(cpu_count() / 2)))
+        '--script',
+        '-s',
+        dest='script_mode',
+        type=bool,
+        help='Check scripts assets to extract GraphQL calls',
+        default=True,
     )
-    parser.add_argument('--webhook_url', '-wb', dest='webhook_url', type=str, help='The webhook url to send results.', default=None)
+    parser.add_argument(
+        '--quiet',
+        '-q',
+        dest='quiet_mode',
+        type=bool,
+        help='Quiet',
+        default=False,
+    )
+    parser.add_argument(
+        '--bruteforce',
+        '-b',
+        dest='bruteforce_mode',
+        type=bool,
+        help='Scan directory looking for GraphQL endpoints',
+        default=True,
+    )
+    parser.add_argument(
+        '--precision',
+        '-p',
+        dest='precision_mode',
+        type=bool,
+        help='Use precision mode',
+        default=True,
+    )
+    parser.add_argument(
+        '--reduce',
+        '-r',
+        dest='reduce_mode',
+        type=int,
+        help='The maximum number of subdomains to scan.',
+        default=100,
+    )
+    parser.add_argument(
+        '--max-workers',
+        '-w',
+        dest='max_workers',
+        type=int,
+        help='Maximum number of concurrent workers in multi-urls mode.',
+        default=(max(1, int(cpu_count() / 2)), ),
+    )
+    parser.add_argument(
+        '--webhook_url',
+        '-wb',
+        dest='webhook_url',
+        type=str,
+        help='The webhook url to send results.',
+        default=None,
+    )
 
     return parser.parse_args(args)
 

@@ -3,14 +3,11 @@
 from asyncio.exceptions import TimeoutError as AsyncioTimeoutError
 from socket import gaierror
 
-from aiohttp.client_exceptions import ClientConnectionError, ClientPayloadError, ClientResponseError, TooManyRedirects
+from aiohttp.client_exceptions import ClientError
 
 AwaitableRequestException: tuple = (
-    ClientConnectionError,
-    ClientResponseError,
-    TooManyRedirects,
+    ClientError,
     AsyncioTimeoutError,
     gaierror,
     UnicodeError,
-    ClientPayloadError,
 )
