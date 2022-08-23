@@ -59,7 +59,7 @@ def filter_urls(urls: Set[Url]) -> Set[Url]:
         for endpoint in _endpoints:
             if url.endswith(endpoint):
 
-                unpacked_url = url.removesuffix(endpoint)
+                unpacked_url = remove_suffix(url, endpoint)
                 if unpacked_url not in unpacked_urls:
                     unpacked_urls[unpacked_url] = []
 
@@ -116,3 +116,11 @@ def transform_url_in_domain(url: str) -> Optional[str]:
 
     # here the url is already a domain name
     return url.replace('www.', '').split('/')[0]
+
+
+def remove_suffix(input_string: str, suffix: str) -> str:
+    """Pre 3.9: https://docs.python.org/3/library/stdtypes.html#str.removesuffix."""
+
+    if suffix and input_string.endswith(suffix):
+        return input_string[:-len(suffix)]
+    return input_string

@@ -31,7 +31,7 @@ def test_read_domains_input_file() -> None:
     setup_logger(False)
 
     with open('tests/unit/io/test_readers.txt', 'r', encoding='utf-8') as input_file:
-        out: List[Domain] = read_domains(input_file, None)
+        out: List[Domain] = read_domains(input_file, None)  # type: ignore[arg-type]
 
     str_out = set(domain.url for domain in out)
 
