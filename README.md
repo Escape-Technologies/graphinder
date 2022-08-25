@@ -29,6 +29,21 @@ Or if you want to pass a file containing domain names (one per line):
 docker run -v /full/path/to/file.csv:/graphinder/file.csv -it --rm escapetech/graphinder --inplace -f /graphinder/file.csv
 ```
 
+## Install using Pip
+
+```bash
+pip install graphinder
+
+# using specific python binary
+python3 -m pip install graphinder
+```
+
+Run it with
+
+```bash
+graphinder ...
+```
+
 ## Usage
 
 A Scan consistes of:
