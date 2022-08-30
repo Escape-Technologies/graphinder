@@ -34,6 +34,6 @@ def send_webhook(
 
     body = format_webhook(results)
 
-    r = requests.post(url=webhook_url, json=body)
+    r = requests.post(url=webhook_url, json=body, timeout=5)
 
     return r.status_code == 204
