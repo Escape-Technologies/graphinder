@@ -37,7 +37,7 @@ asyncio_mode = 'strict'
 [tool.poetry.dependencies]
 aiohttp = {extras = ["speedups"], version = "^3.8.1"}
 beautifulsoup4 = ">=4,<5"
-python = ">=3.10"
+python = ">=3.10,<4.0"
 requests = "^2.27.1"
 
 [tool.poetry.dev-dependencies]
@@ -53,7 +53,7 @@ pytest-asyncio = "^0.19.0"
 pytest-cov = "^3.0.0"
 pytest-mock = "^3.6.1"
 pytest-rerunfailures = "^10.2"
-setuptools = "^45"
+setuptools = "^65.0.0"
 snakeviz = "^2.1.1"
 types-PyYAML = "^6.0.11"
 types-requests = "^2.28.9"
