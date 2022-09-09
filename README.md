@@ -2,7 +2,7 @@
 
 Graphinder is a tool that extracts all GraphQL endpoints from a given domain.
 
-![Banner](banner.png)
+![Banner](doc/banner.png)
 
 ![Docker Pulls](https://img.shields.io/docker/pulls/escapetech/graphinder)
 ![Docker Image Size (latest by date)](https://img.shields.io/docker/image-size/escapetech/graphinder)
@@ -98,6 +98,10 @@ Profit !
 ```bash
 graphinder -d example.com
 ```
+
+## How do you make sure this is a valid graphql endpoint ?
+
+![detector](doc/detector.jpg)
 
 ## Contributing
 
