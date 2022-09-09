@@ -255,7 +255,7 @@ async def is_gql_endpoint(
         bool: True if the authentication is valid, False otherwise.
     """
 
-    assert url and url.startswith('http'), 'Only http(s) urls are supported'
+    assert url, 'URL is required'
 
     headers = headers or {}
 
