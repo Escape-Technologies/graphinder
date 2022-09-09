@@ -74,7 +74,12 @@ async def analyze_schema(text_body: str) -> Tuple[bool, bool]:
     return is_valid, is_valid
 
 
-async def analyze_typename(text_body: str, json_body: Dict) -> Tuple[bool, bool]:
+async def analyze_typename(
+    session: aiohttp.ClientSession,
+    url: str,
+    text_body: str,
+    json_body: Dict,
+) -> Tuple[bool, bool]:
     """Perform futher analysis of the typename request."""
 
     if json_body.get('errors', [{}])[0].get('message') is not None:
@@ -84,8 +89,15 @@ async def analyze_typename(text_body: str, json_body: Dict) -> Tuple[bool, bool]
 
         return True, False
 
-    #  Handle looks_like
+    # Handle looks_like
+    if (await _looks_different_than_closest_route(
+        session,
+        url,
+        text_body,
+    )):
+        return True, False
 
+    # Handle not found pages
     if json_body.get('message') is not None and \
         '404' not in text_body and \
         not re.search(r'not.found', text_body, re.IGNORECASE):
@@ -184,8 +196,8 @@ class GraphQLEndpointDetector:
             if not text_body or not json_body:
                 continue
 
-            further_analysis = await analyze_typename(text_body, json_body) if query_tasks[0] \
-                else await analyze_schema(text_body)
+            further_analysis = await analyze_typename(self._session, self._url, text_body, json_body) \
+                if query_tasks[0] else await analyze_schema(text_body)
             if further_analysis[0]:
                 self.valid_graphql = True
             if further_analysis[1]:
@@ -211,4 +223,9 @@ async def is_gql_endpoint(
         bool: True if the authentication is valid, False otherwise.
     """
 
-    return await (GraphQLEndpointDetector(session, url, logger=logger).detect())
+    detector = GraphQLEndpointDetector(
+        session,
+        url,
+        logger,
+    )
+    return await detector.detect()
