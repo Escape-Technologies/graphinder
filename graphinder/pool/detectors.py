@@ -238,8 +238,9 @@ class GraphQLEndpointDetector:
 
 
 async def is_gql_endpoint(
-    session: aiohttp.ClientSession,
     url: str,
+    session: Optional[aiohttp.ClientSession] = None,
+    headers: Optional[Dict] = None,
     logger: Optional[logging.Logger] = None,
 ) -> Tuple[bool, bool]:
     """Check if the given url seems to be GraphQL endpoint.
@@ -254,9 +255,26 @@ async def is_gql_endpoint(
         bool: True if the authentication is valid, False otherwise.
     """
 
+    assert url and url.startswith('http'), 'Only http(s) urls are supported'
+
+    headers = headers or {}
+
+    # Open new session if necessary
+    has_opened_new_session = False
+    if not session:
+        session = aiohttp.ClientSession(headers=headers)
+        has_opened_new_session = True
+    else:
+        assert isinstance(session, aiohttp.ClientSession), 'Valid session must be provided'
+
     detector = GraphQLEndpointDetector(
         session,
         url,
         logger,
     )
-    return await detector.detect()
+
+    status = await detector.detect()
+
+    if headers and has_opened_new_session:
+        await session.close()
+    return status

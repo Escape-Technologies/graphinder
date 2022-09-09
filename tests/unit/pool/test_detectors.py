@@ -19,5 +19,11 @@ async def test_is_gql_endpoint() -> None:
 
     async with aiohttp.ClientSession() as session:
 
-        assert not (await is_gql_endpoint(session, 'https://example.com'))[0]
-        assert (await is_gql_endpoint(session, 'https://gontoz.escape.tech'))[0]
+        assert not (await is_gql_endpoint(
+            'https://example.com',
+            session=session,
+        ))[0]
+        assert (await is_gql_endpoint(
+            'https://gontoz.escape.tech',
+            session=session,
+        ))[0]

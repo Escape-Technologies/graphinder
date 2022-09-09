@@ -85,6 +85,6 @@ class Domain:
 
         self.logger.debug(f'fetching endpoint {url}...')
 
-        if (await is_gql_endpoint(self.session, url))[0]:
+        if (await is_gql_endpoint(url, session=self.session))[0]:
             self.logger.info(f'found GQL endpoint {url}.')
             self.results.add(Url(url))
