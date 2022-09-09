@@ -202,8 +202,14 @@ class GraphQLEndpointDetector:
             self._timeout,
         )
         query_tasks = [
-            self._send_request('__typename', {'query': 'query { __typename }'}),
-            self._send_request('__schema', {'query': 'query { __schema { queryType { name } } }'}),
+            self._send_request(
+                '__typename',
+                {'query': 'query { __typename }'},
+            ),
+            self._send_request(
+                '__schema',
+                {'query': 'query { __schema { queryType { name } } }'},
+            ),
         ]
 
         # If post request worked, it means likely honey pot
