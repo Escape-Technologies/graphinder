@@ -113,15 +113,15 @@ async def analyze_typename(
 ) -> Tuple[bool, bool]:
     """Perform futher analysis of the typename request."""
 
-    if error_messages := json_body.get('errors', [{}]):
-        if isinstance(error_messages, list) \
-            and isinstance(error_messages[0], dict) \
-            and error_messages[0].get('message') is not None:
-            # Handle hasura errors
-            if 'query is not in any of the allowlists' in text_body.lower():
-                return True, True
+    error_messages = json_body.get('errors', [{}])
+    if isinstance(error_messages, list) \
+        and isinstance(error_messages[0], dict) \
+        and error_messages[0].get('message') is not None:
+        # Handle hasura errors
+        if 'query is not in any of the allowlists' in text_body.lower():
+            return True, True
 
-            return True, False
+        return True, False
 
     # Handle looks_like
     # if (await _looks_different_than_closest_route(
