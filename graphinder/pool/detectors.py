@@ -275,6 +275,7 @@ async def is_gql_endpoint(
 
     status = await detector.detect()
 
-    if headers and has_opened_new_session:
+    if has_opened_new_session:
         await session.close()
+
     return status
