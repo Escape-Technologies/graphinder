@@ -11,8 +11,6 @@ import aiohttp
 
 from graphinder.io.providers import gql_endpoints_characterizer
 
-PAYLOAD: Dict[str, str] = {'query': 'query {  __typename }'}
-
 
 def _look_like_graphql_url(url: str) -> Tuple[bool, Optional[str]]:
     """Check if the url looks like a GraphQL endpoint."""
@@ -22,6 +20,30 @@ def _look_like_graphql_url(url: str) -> Tuple[bool, Optional[str]]:
             return True, part
 
     return False, None
+
+
+def _replace_last_resource(url: str, resource: str) -> Optional[str]:
+    """Replace the last resource in the url with the given resource."""
+
+    # https://hello.com
+    if url.count('/') <= 2:
+        return None
+
+    # https://hello.com
+    if url.count('/') == 3 and url.endswith('/'):
+        return None
+
+    lst = url.split('/')
+    if lst[-1] == '':
+        # https://hello.com/aaa/
+        del lst[-1]
+        lst[-1] = resource
+        return '/'.join(lst) + '/'
+
+    # else # https://hello.com/aaa
+    lst[-1] = resource
+
+    return '/'.join(lst)
 
 
 async def _looks_different_than_closest_route(
@@ -34,8 +56,11 @@ async def _looks_different_than_closest_route(
     look_likes, characterizer = _look_like_graphql_url(url)
     if look_likes and characterizer:
 
-        random_url = url.replace(characterizer, 'random')
-        async with session.post(random_url, json=PAYLOAD, timeout=10) as random_resp:
+        random_url = _replace_last_resource(url, 'random')
+        if random_url is None:
+            return False
+
+        async with session.post(random_url, json={'query': 'query {  __typename }'}, timeout=10) as random_resp:
             random_text_body = await random_resp.text()
 
             if random_text_body != original_body:
