@@ -44,54 +44,6 @@ async def _looks_different_than_closest_route(
     return False
 
 
-async def looks_like_graphql_url(
-    session: aiohttp.ClientSession,
-    url: str,
-) -> bool:
-    """Check if the supplies url looks like a graphql endpoint."""
-
-    text_body = None
-    try:
-        async with session.post(url, json=PAYLOAD, timeout=10) as resp:
-
-            text_body = await resp.text()
-            json_body = await resp.json()
-
-            if json_body.get('data', {}).get('__typename') or json_body.get('errors', [{}])[0].get('message'):
-                return True
-
-            if await _looks_different_than_closest_route(session, url, text_body):
-                return True
-
-            if json_body.get('message') and '404' not in text_body and not re.search(r'not.found', text_body, re.IGNORECASE):
-                return True
-
-            return False
-    except Exception as e:
-        if isinstance(e, JSONDecodeError) and text_body:
-            return await _looks_different_than_closest_route(session, url, text_body)
-
-        return False
-
-
-# async def is_gql_endpoint(
-#     session: aiohttp.ClientSession,
-#     url: str,
-# ) -> bool:
-#     """Check if the supplies url is a GQL endpoint."""
-
-#     try:
-#         # Check if the endpoint is similar to graphQL
-#         async with session.post(url, timeout=10) as request:
-#             response: dict = await request.json()
-#             _ = response['data']['__typename']
-
-#         return False
-
-#     except Exception:
-#         return await looks_like_graphql_url(session, url)
-
-
 async def empty_post_request(
     session: aiohttp.ClientSession,
     url: str,
@@ -106,10 +58,43 @@ async def empty_post_request(
 
         return True
 
-    except (JSONDecodeError, KeyError):
+    except (
+        JSONDecodeError,
+        KeyError,
+        aiohttp.ContentTypeError,
+        aiohttp.ClientError,
+    ):
         return False
 
 
+async def analyze_schema(text_body: str) -> Tuple[bool, bool]:
+    """Perform futher analysis of the schema request."""
+
+    is_valid = 'introspection' in text_body
+    return is_valid, is_valid
+
+
+async def analyze_typename(text_body: str, json_body: Dict) -> Tuple[bool, bool]:
+    """Perform futher analysis of the typename request."""
+
+    if json_body.get('errors', [{}])[0].get('message') is not None:
+        # Handle hasura errors
+        if 'query is not in any of the allowlists' in text_body.lower():
+            return True, True
+
+        return True, False
+
+    #  Handle looks_like
+
+    if json_body.get('message') is not None and \
+        '404' not in text_body and \
+        not re.search(r'not.found', text_body, re.IGNORECASE):
+        return True, False
+
+    return False, False
+
+
+# pylint: disable=too-few-public-methods
 class GraphQLEndpointDetector:
 
     """Check if the url is a valid GraphQL endpoint."""
@@ -142,21 +127,34 @@ class GraphQLEndpointDetector:
         self,
         matching_key: str,
         payload: Optional[Dict],
-    ) -> Tuple[bool, bool, Optional[aiohttp.ClientResponse]]:
-        """Send a request to the url."""
+    ) -> Tuple[bool, Optional[str], Optional[dict]]:
+        """Send a request to the url.
+
+        Returns:
+            bool: If the request was successful.
+            Optional[str]: The text body.
+            Optional[dict]: The json body.
+        """
 
         try:
-            async with self._session.post(self._url, json=payload, timeout=self._timeout) as _req:
-                text_body = await _req.text()
+            async with self._session.post(
+                self._url,
+                json=payload,
+                timeout=self._timeout,
+            ) as req:
+                text_body = await req.text()
                 json_body = json.loads(text_body)
+
                 if json_body.get('data', {}).get(matching_key) is not None:
-                    return True, True, _req
+                    return True, None, None
+
+                return False, text_body, json_body
 
         except Exception as e:
             if self._logger:
                 self._logger.debug(f'Error while sending request to {self._url}: {e}')
 
-        return False, False, None
+        return False, None, None
 
     async def detect(self) -> Tuple[bool, bool]:
         """Detect if the url is a GraphQL endpoint."""
@@ -177,7 +175,21 @@ class GraphQLEndpointDetector:
             return False, False
 
         for query in asyncio.as_completed(query_tasks):
-            pass
+            status, text_body, json_body = await query
+            if status:
+                self.valid_graphql = True
+                self.valid_auth = True
+                break
+
+            if not text_body or not json_body:
+                continue
+
+            further_analysis = await analyze_typename(text_body, json_body) if query_tasks[0] \
+                else await analyze_schema(text_body)
+            if further_analysis[0]:
+                self.valid_graphql = True
+            if further_analysis[1]:
+                self.valid_auth = True
 
         return self.valid_graphql, self.valid_auth
 
@@ -190,7 +202,7 @@ async def is_gql_endpoint(
     """Check if the given url seems to be GraphQL endpoint.
 
     Args:
-        session: aiohttp session
+        session: aiohttp session with auth headers
         url: url to check
         logger: logger to use
 
