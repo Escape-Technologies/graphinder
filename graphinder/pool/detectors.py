@@ -60,7 +60,11 @@ async def _looks_different_than_closest_route(
         if random_url is None:
             return False
 
-        async with session.post(random_url, json={'query': 'query {  __typename }'}, timeout=10) as random_resp:
+        async with session.post(
+            random_url,
+            json={'query': 'query {  __typename }'},
+            timeout=10,
+        ) as random_resp:
             random_text_body = await random_resp.text()
 
             if random_text_body != original_body:
@@ -88,6 +92,8 @@ async def empty_post_request(
         KeyError,
         aiohttp.ContentTypeError,
         aiohttp.ClientError,
+        TypeError,
+        asyncio.TimeoutError,
     ):
         return False
 
@@ -100,27 +106,30 @@ async def analyze_schema(text_body: str) -> Tuple[bool, bool]:
 
 
 async def analyze_typename(
-    session: aiohttp.ClientSession,
-    url: str,
+    # session: aiohttp.ClientSession,
+    # url: str,
     text_body: str,
     json_body: Dict,
 ) -> Tuple[bool, bool]:
     """Perform futher analysis of the typename request."""
 
-    if json_body.get('errors', [{}])[0].get('message') is not None:
-        # Handle hasura errors
-        if 'query is not in any of the allowlists' in text_body.lower():
-            return True, True
+    if error_messages := json_body.get('errors', [{}]):
+        if isinstance(error_messages, list) \
+            and isinstance(error_messages[0], dict) \
+            and error_messages[0].get('message') is not None:
+            # Handle hasura errors
+            if 'query is not in any of the allowlists' in text_body.lower():
+                return True, True
 
-        return True, False
+            return True, False
 
     # Handle looks_like
-    if (await _looks_different_than_closest_route(
-        session,
-        url,
-        text_body,
-    )):
-        return True, False
+    # if (await _looks_different_than_closest_route(
+    #     session,
+    #     url,
+    #     text_body,
+    # )):
+    #     return True, False
 
     # Handle not found pages
     if json_body.get('message') is not None and \
@@ -227,7 +236,7 @@ class GraphQLEndpointDetector:
             if not text_body or not json_body:
                 continue
 
-            further_analysis = await analyze_typename(self._session, self._url, text_body, json_body) \
+            further_analysis = await analyze_typename(text_body, json_body) \
                 if query_tasks[0] else await analyze_schema(text_body)
             if further_analysis[0]:
                 self.valid_graphql = True
