@@ -614,7 +614,7 @@ python-versions = "*"
 
 [[package]]
 name = "types-requests"
-version = "2.28.9"
+version = "2.28.10"
 description = "Typing stubs for requests"
 category = "dev"
 optional = false
@@ -721,7 +721,7 @@ multidict = ">=4.0"
 [metadata]
 lock-version = "1.1"
 python-versions = ">=3.10,<4.0"
-content-hash = "60233f34c8e3d4a186fb4dc26a6ccb8f32fe3d4227154b925192947da0366e01"
+content-hash = "9ad4dd54009fddc6d026db2744db8910a30db2fce543d6ced95a29e485f48d53"
 
 [metadata.files]
 aiodns = [
@@ -1430,8 +1430,8 @@ types-pyyaml = [
     {file = "types_PyYAML-6.0.11-py3-none-any.whl", hash = "sha256:8f890028123607379c63550179ddaec4517dc751f4c527a52bb61934bf495989"},
 ]
 types-requests = [
-    {file = "types-requests-2.28.9.tar.gz", hash = "sha256:feaf581bd580497a47fe845d506fa3b91b484cf706ff27774e87659837de9962"},
-    {file = "types_requests-2.28.9-py3-none-any.whl", hash = "sha256:86cb66d3de2f53eac5c09adc42cf6547eefbd0c7e1210beca1ee751c35d96083"},
+    {file = "types-requests-2.28.10.tar.gz", hash = "sha256:97d8f40aa1ffe1e58c3726c77d63c182daea9a72d9f1fa2cafdea756b2a19f2c"},
+    {file = "types_requests-2.28.10-py3-none-any.whl", hash = "sha256:45b485725ed58752f2b23461252f1c1ad9205b884a1e35f786bb295525a3e16a"},
 ]
 types-setuptools = [
     {file = "types-setuptools-65.3.0.tar.gz", hash = "sha256:c26779cbba3947823c260354adaab4e91ca8c18888aa2b740f503844b88f1813"},
