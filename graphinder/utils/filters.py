@@ -32,16 +32,13 @@ def filter_common(urls: Set[str]) -> Set[str]:
     ]
 
     urls_filtered = urls.copy()
-
     for url in urls:
         if '://a' in url and url.endswith('a'):
             urls_filtered.remove(url)
         elif '://x' in url and url.endswith('x'):
             urls_filtered.remove(url)
-        else:
-            for common_string in common_strings:
-                if common_string in url:
-                    urls_filtered.remove(url)
+        elif any(common in url for common in common_strings):
+            urls_filtered.remove(url)
 
     return urls_filtered
 

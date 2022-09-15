@@ -4,7 +4,6 @@ import asyncio
 import json
 import logging
 import re
-from json import JSONDecodeError
 from typing import Any, Coroutine, Dict, Optional, Tuple
 
 import aiohttp
@@ -78,7 +77,10 @@ async def empty_post_request(
     url: str,
     timeout: int,
 ) -> bool:
-    """Send empty post request."""
+    """Send empty post request.
+
+    If the response contains a GraphQL like JSON body, this must be a honeypot.
+    """
 
     try:
         async with session.post(url, timeout=timeout) as request:
@@ -87,14 +89,7 @@ async def empty_post_request(
 
         return True
 
-    except (
-        JSONDecodeError,
-        KeyError,
-        aiohttp.ContentTypeError,
-        aiohttp.ClientError,
-        TypeError,
-        asyncio.TimeoutError,
-    ):
+    except Exception:
         return False
 
 
@@ -115,6 +110,7 @@ async def analyze_typename(
 
     error_messages = json_body.get('errors', [{}])
     if isinstance(error_messages, list) \
+        and len(error_messages) > 0 \
         and isinstance(error_messages[0], dict) \
         and error_messages[0].get('message') is not None:
         # Handle hasura errors
@@ -285,6 +281,8 @@ async def is_gql_endpoint(
     status = await detector.detect()
 
     if has_opened_new_session:
+        if logger:
+            logger.debug('Closing previously opened session')
         await session.close()
 
     return status
