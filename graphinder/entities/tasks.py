@@ -28,7 +28,7 @@ class Task:
 
         self.domain_url = domain_url
         self.tag = tag
-        self.url = url
+        self.url = url[:-1] if url.endswith('/') else url
 
 
 TasksList = List[Task]
