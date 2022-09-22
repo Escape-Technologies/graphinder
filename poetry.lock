@@ -337,7 +337,7 @@ testing = ["pytest", "pytest-benchmark"]
 
 [[package]]
 name = "poetryup"
-version = "0.10.0"
+version = "0.12.0"
 description = "Update dependencies and bump their version in the pyproject.toml file"
 category = "dev"
 optional = false
@@ -721,7 +721,7 @@ multidict = ">=4.0"
 [metadata]
 lock-version = "1.1"
 python-versions = ">=3.10,<4.0"
-content-hash = "a1ae77080be042257f9f25326aec06baeca94d4f8b5d98435ddcaf741324307e"
+content-hash = "6b57474ab7008e5d462fd63cd1ad288ca6859f3e8ac69cddc4d34d71c290743b"
 
 [metadata.files]
 aiodns = [
@@ -1282,8 +1282,8 @@ pluggy = [
     {file = "pluggy-1.0.0.tar.gz", hash = "sha256:4224373bacce55f955a878bf9cfa763c1e360858e330072059e10bad68531159"},
 ]
 poetryup = [
-    {file = "poetryup-0.10.0-py3-none-any.whl", hash = "sha256:af6cd699c82b37908e11a48001e20bd7f33d9c66a77dc627ecace269a21463d2"},
-    {file = "poetryup-0.10.0.tar.gz", hash = "sha256:63c524fa4372eb16bd023384de657c9fee673dcc568aded9e116a9a5c9ba752a"},
+    {file = "poetryup-0.12.0-py3-none-any.whl", hash = "sha256:d56ae9ffbc5ba1035f63d825bdddf29d66e03e2f5003f70d6c6beaff30ebe6fa"},
+    {file = "poetryup-0.12.0.tar.gz", hash = "sha256:baac140c16d1af8a7fe6430092f39d34baab10f332c251d4456f066fbfcebb54"},
 ]
 py = [
     {file = "py-1.11.0-py2.py3-none-any.whl", hash = "sha256:607c53218732647dff4acdfcd50cb62615cedf612e72d1724fb1a0cc6405b378"},
