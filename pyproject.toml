@@ -41,7 +41,7 @@ python = ">=3.10,<4.0"
 requests = "^2.27.1"
 
 [tool.poetry.dev-dependencies]
-autoflake = "^1.5"
+autoflake = "^1.6"
 docformatter = "^1.5"
 isort = "^5.10.1"
 mypy = "^0.971"
