@@ -3,6 +3,7 @@
 import argparse
 
 import pkg_resources
+import pytest
 
 from graphinder.main import __version__, argument_builder, main, validate_arguments
 from graphinder.utils.logger import get_logger
@@ -51,13 +52,15 @@ def test_validate_arguments() -> None:
     assert not validate_arguments(logger, args)
 
 
-def test_main() -> None:
+@pytest.mark.asyncio
+async def test_main() -> None:
     """main test."""
 
-    assert not main([])
+    assert not await main([])
 
 
-def test_full_run() -> None:
+@pytest.mark.asyncio
+async def test_full_run() -> None:
     """Test a complete run."""
 
-    assert main(['-d', 'example.com']) == {'example.com': set()}
+    assert (await main(['-d', 'example.com'])) == {'example.com': set()}

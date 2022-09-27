@@ -1,7 +1,6 @@
 """Functions to manage pooling."""
 
 import argparse
-import asyncio
 from typing import Dict, Set, Union, cast
 
 from graphinder.entities.io import Results
@@ -15,19 +14,19 @@ from graphinder.utils.logger import get_logger
 from graphinder.utils.webhook import send_webhook
 
 
-def domain_routine(
+async def domain_routine(
     domain: Domain,
     args: argparse.Namespace,
 ) -> Dict[str, Union[str, Set[Url]]]:
     """Start domain routine."""
 
     _tasks: TasksList = init_domain_tasks(domain, args)
-    _urls: Set[Url] = asyncio.run(consume_tasks(_tasks, domain))
+    _urls: Set[Url] = await consume_tasks(_tasks, domain)
 
     return {'domain': domain.url, 'urls': filter_urls(_urls)}
 
 
-def main_routine(args: argparse.Namespace) -> Results:
+async def main_routine(args: argparse.Namespace) -> Results:
     """Main pool routine."""
 
     logger = get_logger()
@@ -39,7 +38,7 @@ def main_routine(args: argparse.Namespace) -> Results:
     output_file = args.output_file
     del args.output_file
 
-    result = domain_routine(domain, args)
+    result = await domain_routine(domain, args)
     results: Results = cast(Results, {result['domain']: result['urls']})
 
     if not args.quiet_mode:

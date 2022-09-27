@@ -1,6 +1,7 @@
 """The CLI."""
 
 import argparse
+import asyncio
 import logging
 import sys
 from datetime import date
@@ -135,10 +136,10 @@ def cli() -> None:
     print(f'   (c) 2021 - { date.today().year } Escape Technologies - Version: {__version__}')
     print('\n' * 2)
 
-    main()
+    asyncio.run(main())
 
 
-def main(
+async def main(
     argv: Optional[List[str]] = None,
     logger: Optional[logging.Logger] = None,
 ) -> Results:
@@ -158,4 +159,4 @@ def main(
         return {}
 
     fetch_assets()
-    return main_routine(args)
+    return await main_routine(args)
