@@ -1,7 +1,6 @@
 """Test main.py."""
 
 import argparse
-from multiprocessing import cpu_count
 
 import pkg_resources
 
@@ -20,12 +19,10 @@ def test_argument_builder() -> None:
     args: argparse.Namespace = argument_builder([])
 
     assert args.domain is None
-    assert args.input_file is None
     assert not args.verbose_mode
     assert not args.no_script_mode
     assert not args.no_bruteforce_mode
     assert args.reduce_mode == 100
-    assert args.max_workers == cpu_count() / 2
 
     args = argument_builder(['-d', 'example.com'])
 
@@ -53,14 +50,11 @@ def test_validate_arguments() -> None:
     args = argument_builder(['-d', 'example.com', '--no-script', '--no-bruteforce'])
     assert not validate_arguments(logger, args)
 
-    args = argument_builder(['-d', 'example.com', '-f', 'README.md'])
-    assert not validate_arguments(logger, args)
-
 
 def test_main() -> None:
     """main test."""
 
-    assert main([]) == {}
+    assert not main([])
 
 
 def test_full_run() -> None:
