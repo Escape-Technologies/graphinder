@@ -23,12 +23,6 @@ docker cp graphinder:/graphinder/results.json results.json
 docker rm -f graphinder
 ```
 
-Or if you want to pass a file containing domain names (one per line):
-
-```bash
-docker run -v /full/path/to/file.csv:/graphinder/file.csv -it --rm escapetech/graphinder --inplace -f /graphinder/file.csv
-```
-
 ## Install using Pip
 
 ```bash
@@ -48,7 +42,7 @@ graphinder ...
 
 A Scan consistes of:
 
-- Running on a specific domain (`-d`, `--domain`) or a list of domains (`-f`, `--input-file`).
+- Running specific domain (`-d`, `--domain`).
 - Searching all scripts loaded by the browser for graphql endpoint (`-s`, `--script`)
 - Brute forcing the directories of all discovered urls (`-b`, `--bruteforce`)
 - Using precision mode (`-p`, `--precision`)
@@ -68,7 +62,6 @@ graphinder -f domains.txt
 - `--no-bruteforce`: Disable bruteforce
 - `--no-script`: Disable script search
 - `-p --precision --no-precision`: Enable/disable precision mode (default: enabled) (precision mode is slower but more accurate)
-- `-f --input-file <FILE_PATH>`: Input domain names from file
 - `-w --max-workers <int>`: Maximum of concurrent workers on multiple domains.
 - `-o --output-file <FILE_PATH>`: Output the results to file
 - `-v --verbose --no-verbose`: Verbose mode
