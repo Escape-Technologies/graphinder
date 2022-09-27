@@ -4,7 +4,6 @@ import argparse
 import logging
 import sys
 from datetime import date
-from multiprocessing import cpu_count
 from typing import List, Optional
 
 import pkg_resources
@@ -27,21 +26,6 @@ def argument_builder(args: List[str]) -> argparse.Namespace:
         dest='domain',
         type=str,
         help='Domain to scan',
-    )
-    parser.add_argument(
-        '--input-file',
-        '-f',
-        dest='input_file',
-        type=argparse.FileType('r+'),
-        help='The path to the text file of domains to scan',
-    )
-    parser.add_argument(
-        '--inplace',
-        '-i',
-        dest='inplace',
-        type=bool,
-        help='Write the results in the same file as the input file, comma separated (CSV)',
-        default=False,
     )
     parser.add_argument(
         '--output-file',
@@ -97,14 +81,6 @@ def argument_builder(args: List[str]) -> argparse.Namespace:
         default=100,
     )
     parser.add_argument(
-        '--max-workers',
-        '-w',
-        dest='max_workers',
-        type=int,
-        help='Maximum number of concurrent workers in multi-urls mode.',
-        default=(max(1, int(cpu_count() / 2))),
-    )
-    parser.add_argument(
         '--webhook_url',
         '-wb',
         dest='webhook_url',
@@ -122,15 +98,8 @@ def validate_arguments(
 ) -> bool:
     """Validates the arguments."""
 
-    if args.domain and args.input_file:
-        return False
-
-    if args.inplace and not args.input_file:
-        logger.error('--inplace requires and --input-file')
-        return False
-
-    if not args.domain and not args.input_file:
-        logger.error('you must supply a domain or a input_file.')
+    if args.domain is None:
+        logger.error('No domain provided')
         return False
 
     if args.no_script_mode and args.no_bruteforce_mode:
