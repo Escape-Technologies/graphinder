@@ -136,10 +136,28 @@ def cli() -> None:
     print(f'   (c) 2021 - { date.today().year } Escape Technologies - Version: {__version__}')
     print('\n' * 2)
 
-    asyncio.run(main())
+    main()
 
 
-async def main(
+async def async_main(
+    argv: Optional[List[str]] = None,
+    logger: Optional[logging.Logger] = None,
+) -> Results:
+    """Async main."""
+
+    return await loop(argv, logger)
+
+
+def main(
+    argv: Optional[List[str]] = None,
+    logger: Optional[logging.Logger] = None,
+) -> Results:
+    """Main."""
+
+    return asyncio.run(loop(argv, logger))
+
+
+async def loop(
     argv: Optional[List[str]] = None,
     logger: Optional[logging.Logger] = None,
 ) -> Results:
