@@ -30,6 +30,7 @@ class Domain:
         self.url = url
         self.logger = get_logger()
         self.subdomains: List[str] = []
+        self.already_fetched: Set[str] = set()
 
         if precision_mode:
             self.semaphore = asyncio.Semaphore(100)

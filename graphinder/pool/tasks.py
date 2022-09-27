@@ -89,6 +89,9 @@ async def process_task(
     if domain.semaphore:
         await domain.semaphore.acquire()
 
+    # Prevent fetching the same URL twice.
+    domain.already_fetched.add(task.url)
+
     # process task using the correct method.
     if task.tag == TaskTags.FETCH_SCRIPT:
         _urls = await domain.fetch_script(task.url)
