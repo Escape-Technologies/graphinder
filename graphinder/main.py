@@ -99,12 +99,15 @@ def validate_arguments(
     """Validates the arguments."""
 
     if args.domain is None:
-        logger.error('No domain provided')
+        logger.error('no domain provided')
         return False
 
     if args.no_script_mode and args.no_bruteforce_mode:
         logger.error('no scanning mode selected.')
         return False
+
+    if args.precision_mode:
+        logger.info('precision mode enabled')
 
     return True
 
@@ -155,5 +158,4 @@ def main(
         return {}
 
     fetch_assets()
-
     return main_routine(args)

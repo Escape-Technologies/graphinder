@@ -34,7 +34,7 @@ def main_routine(args: argparse.Namespace) -> Results:
     logger.info('starting main routine..')
 
     domain: Domain = Domain(args.domain, args.precision_mode)
-    logger.info(f'Running scan on {domain.url}')
+    logger.info(f'running scan on {domain.url}')
 
     output_file = args.output_file
     del args.output_file
