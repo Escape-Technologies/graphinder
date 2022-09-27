@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "graphinder"
-version = "2.0.0b2"
+version = "2.0.0b3"
 description = "Escape Graphinder"
 authors = ["Escape Technologies SAS <ping@escape.tech>"]
 maintainers = [
