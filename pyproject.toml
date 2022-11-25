@@ -12,9 +12,6 @@ license = "MIT"
 packages = [
     { include = "graphinder" }
 ]
-include = [
-    "LICENSE",
-]
 readme = "README.md"
 "homepage" = "https://escape.tech/"
 "repository" = "https://github.com/Escape-Technologies/graphinder"
