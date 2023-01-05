@@ -34,7 +34,6 @@ def argument_builder(args: List[str]) -> argparse.Namespace:
         dest='output_file',
         type=argparse.FileType('w'),
         help='The path of the results file',
-        default='results.json',
     )
     parser.add_argument(
         '--verbose',
