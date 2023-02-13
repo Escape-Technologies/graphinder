@@ -1310,6 +1310,18 @@ doc = ["mdx-include (>=1.4.1,<2.0.0)", "mkdocs (>=1.1.2,<2.0.0)", "mkdocs-materi
 test = ["black (>=22.3.0,<23.0.0)", "coverage (>=5.2,<6.0)", "isort (>=5.0.6,<6.0.0)", "mypy (==0.910)", "pytest (>=4.4.0,<5.4.0)", "pytest-cov (>=2.10.0,<3.0.0)", "pytest-sugar (>=0.9.4,<0.10.0)", "pytest-xdist (>=1.32.0,<2.0.0)", "shellingham (>=1.3.0,<2.0.0)"]
 
 [[package]]
+name = "types-docutils"
+version = "0.19.1.3"
+description = "Typing stubs for docutils"
+category = "dev"
+optional = false
+python-versions = "*"
+files = [
+    {file = "types-docutils-0.19.1.3.tar.gz", hash = "sha256:36fe30de56f1ece1a9f7a990d47daa781b5af831d2b3f2dcb7dfd01b857cc3d4"},
+    {file = "types_docutils-0.19.1.3-py3-none-any.whl", hash = "sha256:d608e6b91ccf0e8e01c586a0af5b0e0462382d3be65b734af82d40c9d010735d"},
+]
+
+[[package]]
 name = "types-pyyaml"
 version = "6.0.12"
 description = "Typing stubs for PyYAML"
@@ -1338,15 +1350,18 @@ types-urllib3 = "<1.27"
 
 [[package]]
 name = "types-setuptools"
-version = "65.5.0.1"
+version = "67.2.0.1"
 description = "Typing stubs for setuptools"
 category = "dev"
 optional = false
 python-versions = "*"
 files = [
-    {file = "types-setuptools-65.5.0.1.tar.gz", hash = "sha256:5b297081c8f1fbd992cd8b305a97ed96ee6ffc765e9115124029597dd10b8a71"},
-    {file = "types_setuptools-65.5.0.1-py3-none-any.whl", hash = "sha256:601d45b5e9979d2b931de5403aa11153626a1eadd1ce9727b21f24673ced5ceb"},
+    {file = "types-setuptools-67.2.0.1.tar.gz", hash = "sha256:07648088bc2cbf0f2745107d394e619ba2a747f68a5904e6e4089c0cb8322065"},
+    {file = "types_setuptools-67.2.0.1-py3-none-any.whl", hash = "sha256:f15b2924122dca5f99a9f6a96a872145721373fe1bb6d656cf269c2a8b73a74b"},
 ]
+
+[package.dependencies]
+types-docutils = "*"
 
 [[package]]
 name = "types-urllib3"
@@ -1591,4 +1606,4 @@ multidict = ">=4.0"
 [metadata]
 lock-version = "2.0"
 python-versions = ">=3.10,<4.0"
-content-hash = "577f9661943dc8c1e827b6b5c0a751a51e244d08f8e0625702d2fbbe4082cc58"
+content-hash = "b7c34f7d08a00d23225ed27e7fdf29e6ceae672b26b8cec7c29d174867782389"
