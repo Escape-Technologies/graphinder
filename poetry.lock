@@ -1310,6 +1310,18 @@ doc = ["mdx-include (>=1.4.1,<2.0.0)", "mkdocs (>=1.1.2,<2.0.0)", "mkdocs-materi
 test = ["black (>=22.3.0,<23.0.0)", "coverage (>=5.2,<6.0)", "isort (>=5.0.6,<6.0.0)", "mypy (==0.910)", "pytest (>=4.4.0,<5.4.0)", "pytest-cov (>=2.10.0,<3.0.0)", "pytest-sugar (>=0.9.4,<0.10.0)", "pytest-xdist (>=1.32.0,<2.0.0)", "shellingham (>=1.3.0,<2.0.0)"]
 
 [[package]]
+name = "types-docutils"
+version = "0.19.1.4"
+description = "Typing stubs for docutils"
+category = "dev"
+optional = false
+python-versions = "*"
+files = [
+    {file = "types-docutils-0.19.1.4.tar.gz", hash = "sha256:1b64b21b609ff1fc7791d3d930f14b56b36ad09029fd97e45e34cc889d671b5f"},
+    {file = "types_docutils-0.19.1.4-py3-none-any.whl", hash = "sha256:870d71f3663141f67a3c59d26d2c54a8c478c842208bb0b345fbf6036f49f561"},
+]
+
+[[package]]
 name = "types-pyyaml"
 version = "6.0.12"
 description = "Typing stubs for PyYAML"
@@ -1338,15 +1350,18 @@ types-urllib3 = "<1.27"
 
 [[package]]
 name = "types-setuptools"
-version = "65.5.0.1"
+version = "67.3.0.1"
 description = "Typing stubs for setuptools"
 category = "dev"
 optional = false
 python-versions = "*"
 files = [
-    {file = "types-setuptools-65.5.0.1.tar.gz", hash = "sha256:5b297081c8f1fbd992cd8b305a97ed96ee6ffc765e9115124029597dd10b8a71"},
-    {file = "types_setuptools-65.5.0.1-py3-none-any.whl", hash = "sha256:601d45b5e9979d2b931de5403aa11153626a1eadd1ce9727b21f24673ced5ceb"},
+    {file = "types-setuptools-67.3.0.1.tar.gz", hash = "sha256:1a26d373036c720e566823b6edd664a2db4d138b6eeba856721ec1254203474f"},
+    {file = "types_setuptools-67.3.0.1-py3-none-any.whl", hash = "sha256:a7e0f0816b5b449f5bcdc0efa43da91ff81dbe6941f293a6490d68a450e130a1"},
 ]
+
+[package.dependencies]
+types-docutils = "*"
 
 [[package]]
 name = "types-urllib3"
@@ -1591,4 +1606,4 @@ multidict = ">=4.0"
 [metadata]
 lock-version = "2.0"
 python-versions = ">=3.10,<4.0"
-content-hash = "577f9661943dc8c1e827b6b5c0a751a51e244d08f8e0625702d2fbbe4082cc58"
+content-hash = "fa95098e9c726b4ad900a7ba18d94c9925fc5cfcdb847dd2f029ecd7c04c07b1"
