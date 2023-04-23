@@ -1,14 +1,11 @@
 #!/bin/sh
 
 # Check if pip is installed, and install it if necessary
-if ! command -v pip >/dev/null 2>&1; then
-    echo "---- Installing pip ----"
-    curl https://bootstrap.pypa.io/get-pip.py -o get-pip.py
-    python get-pip.py
-else
-    echo "---- Pip is already installed ----"
-fi
-
+echo "---- Updating pip ----"
+curl https://bootstrap.pypa.io/get-pip.py -o get-pip.py
+python get-pip.py
+echo "---- Pip updated ----"
+rm get-pip.py
 
 echo "---- Installing Python Poetry ----"
 pip install -U pip
