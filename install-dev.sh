@@ -11,6 +11,7 @@ if ! pip --version > /dev/null 2>&1; then
     curl -sSL https://bootstrap.pypa.io/get-pip.py | python
 fi
 echo "---- Installing Python Poetry ----"
+echo "---- Updating pip ----"
 pip install -U pip
 pip install -U poetry
 poetry config virtualenvs.in-project true
