@@ -76,7 +76,7 @@ Clone the repository and run the installation script
 
 ```bash
 git clone https://github.com/Escape-Technologies/graphinder.git
-cd Graphinder
+cd graphinder
 ./install-dev.sh
 ```
 
